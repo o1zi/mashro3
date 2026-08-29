@@ -1,564 +1,2983 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
 </head>
+
 <body>
-<x-dc>
-<helmet>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  html, body { margin: 0; padding: 0; background: #08080A; }
-  body { font-family: "IBM Plex Sans Arabic", system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: #ECECEF; }
-  * { box-sizing: border-box; }
-  a { color: #ECECEF; text-decoration: none; }
-  a:hover { color: #FFFFFF; }
-  input { font-family: inherit; }
-  @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  @media (max-width: 980px) {
-    [data-r="dash"] { grid-template-columns: 1fr !important; }
-    [data-r="dashside"] { display: none !important; }
-    [data-r="hide-sm"] { display: none !important; }
-    [data-r="two"] { grid-template-columns: 1fr !important; }
-  }
-  @media (max-width: 760px) {
-    [data-r="kpi"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  }
-</style>
-</helmet>
-<div dir="rtl" style="min-height: 100vh; background: #08080A;">
+  <x-dc>
+    <helmet>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <div style="position: sticky; top: 0; z-index: 30; background: rgba(8,8,10,.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.07);">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 12px clamp(14px,3vw,28px); display: flex; gap: 8px; overflow-x: auto; align-items: center;">
-      <button onClick="{{ showAll }}" style="{{ allChipStyle }}">كل المنتجات</button>
-      <span style="width: 1px; height: 22px; background: rgba(255,255,255,.1); flex-shrink: 0;"></span>
-      <sc-for list="{{ chips }}" as="c" hint-placeholder-count="15">
-        <button onClick="{{ c.select }}" style="{{ c.style }}">
-          <span style="{{ c.dotStyle }}"></span>
-          <span>{{ c.label }}</span>
-        </button>
-      </sc-for>
-    </div>
-  </div>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
-    <main style="max-width: 1320px; margin: 0 auto; padding: clamp(22px,3vw,34px) clamp(14px,3vw,28px) clamp(40px,6vw,70px);">
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px;">
-        <sc-for list="{{ cards }}" as="s" hint-placeholder-count="15">
-          <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">
-            <span style="display: flex; align-items: center; gap: 12px;">
-              <span style="{{ s.markStyle }}">{{ s.mark }}</span>
-              <span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.4;">
-                <span style="font-size: 18px; font-weight: 600;">{{ s.product }}</span>
-                <span style="font-size: 12px; color: #787882;">{{ s.sector }}</span>
-              </span>
-            </span>
-            <span style="font-size: 13px; color: #9C9CA6; line-height: 1.8; text-align: right;">{{ s.desc }}</span>
-            <span style="display: flex; flex-wrap: wrap; gap: 6px;">
-              <sc-for list="{{ s.topMods }}" as="m" hint-placeholder-count="4">
-                <span style="font-size: 11.5px; color: #A6A6B0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 4px 9px; white-space: nowrap; flex-shrink: 0;">{{ m }}</span>
-              </sc-for>
-            </span>
-            <span style="{{ s.openStyle }}">افتح اللوحة ←</span>
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      >
+
+      <style>
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background: #08080A;
+        }
+
+        body {
+          font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          color: #ECECEF;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        a {
+          color: #ECECEF;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: #FFFFFF;
+        }
+
+        input {
+          font-family: inherit;
+        }
+
+        button {
+          font-family: inherit;
+        }
+
+        @keyframes riseIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+
+        @media (max-width: 980px) {
+          [data-r="dash"] {
+            grid-template-columns: 1fr !important;
+          }
+
+          [data-r="dashside"] {
+            display: none !important;
+          }
+
+          [data-r="hide-sm"] {
+            display: none !important;
+          }
+
+          [data-r="two"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        @media (max-width: 760px) {
+          [data-r="kpi"] {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          [data-r="kpi"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      </style>
+    </helmet>
+
+    <div
+      dir="rtl"
+      style="min-height: 100vh; background: #08080A;"
+    >
+
+      <!-- Product Navigation -->
+      <div
+        style="
+          position: sticky;
+          top: 0;
+          z-index: 30;
+          background: rgba(8,8,10,.9);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(255,255,255,.07);
+        "
+      >
+        <div
+          style="
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 12px clamp(14px,3vw,28px);
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            align-items: center;
+          "
+        >
+
+          <button
+            onClick="{{ showAll }}"
+            style="{{ allChipStyle }}"
+          >
+            كل المنتجات
           </button>
-        </sc-for>
-      </div>
-    </main>
-  </sc-if>
 
-  <sc-if value="{{ isOne }}" hint-placeholder-val="{{ false }}">
-    <main style="max-width: 1320px; margin: 0 auto; padding: clamp(20px,3vw,30px) clamp(14px,3vw,28px) clamp(40px,6vw,70px);">
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 18px;">
-        <span style="{{ p.bigMarkStyle }}">{{ p.mark }}</span>
-        <div>
-          <div style="font-size: 26px; font-weight: 600; letter-spacing: -.5px;">{{ p.product }}</div>
-          <div style="font-size: 13.5px; color: #8B8B95; margin-top: 4px;">{{ p.sector }} — {{ p.desc }}</div>
-        </div>
-        <div style="flex: 1;"></div>
-        <span style="font-size: 11.5px; color: #6F6F79; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 6px 11px; white-space: nowrap; flex-shrink: 0;">بيانات تجريبية</span>
-      </div>
+          <span
+            style="
+              width: 1px;
+              height: 22px;
+              background: rgba(255,255,255,.1);
+              flex-shrink: 0;
+            "
+          ></span>
 
-      <div data-r="dash" style="display: grid; grid-template-columns: 248px 1fr; border: 1px solid rgba(255,255,255,.09); border-radius: 18px; overflow: hidden; background: #0B0B0E;">
-        <aside data-r="dashside" style="border-inline-start: 1px solid rgba(255,255,255,.07); background: #0D0D11; display: flex; flex-direction: column;">
-          <div style="padding: 18px 18px 14px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 10px;">
-            <span style="{{ p.smallMarkStyle }}">{{ p.mark }}</span>
-            <span style="display: flex; flex-direction: column; line-height: 1.35;">
-              <span style="font-size: 14px; font-weight: 600;">{{ p.product }}</span>
-              <span style="font-size: 10.5px; color: #6F6F79;">مؤسسة الأفق</span>
-            </span>
-          </div>
-          <nav style="padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; max-height: 440px; overflow-y: auto;">
-            <sc-for list="{{ p.navMods }}" as="m" hint-placeholder-count="12">
-              <button onClick="{{ m.select }}" style="{{ m.style }}">
-                <span style="{{ m.bulletStyle }}"></span>
-                <span>{{ m.label }}</span>
-              </button>
-            </sc-for>
-          </nav>
-          <div style="margin-top: auto; padding: 14px 16px; border-top: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 10px;">
-            <span style="width: 30px; height: 30px; border-radius: 999px; background: rgba(255,255,255,.1); display: grid; place-items: center; font-size: 12px;">أ م</span>
-            <span style="display: flex; flex-direction: column; line-height: 1.3;">
-              <span style="font-size: 12.5px;">أحمد محمد</span>
-              <span style="font-size: 10.5px; color: #6F6F79;">مدير النظام</span>
-            </span>
-          </div>
-        </aside>
-
-        <div style="min-width: 0;">
-          <div style="height: 58px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 12px; padding: 0 16px; background: #0C0C10;">
-            <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08); border-radius: 9px; padding: 8px 12px; flex: 1; max-width: 340px;">
-              <span style="font-size: 12px; color: #6F6F79;">◌</span>
-              <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="ابحث في {{ p.activeMod }}…" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #ECECEF; font-size: 12.5px;" />
-            </div>
-            <div style="flex: 1;"></div>
-            <div data-r="hide-sm" style="font-size: 12px; color: #787882;">{{ p.activeMod }}</div>
-            <button onClick="{{ toggleNotif }}" style="position: relative; width: 34px; height: 34px; border-radius: 9px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); color: #ECECEF; cursor: pointer; font-size: 13px;" style-hover="background: rgba(255,255,255,.09);">
-              ◔
-              <span style="{{ p.badgeStyle }}"></span>
+          <sc-for
+            list="{{ chips }}"
+            as="c"
+            hint-placeholder-count="15"
+          >
+            <button
+              onClick="{{ c.select }}"
+              style="{{ c.style }}"
+            >
+              <span style="{{ c.dotStyle }}"></span>
+              <span>{{ c.label }}</span>
             </button>
-            <span style="width: 30px; height: 30px; border-radius: 999px; background: rgba(255,255,255,.1); display: grid; place-items: center; font-size: 11.5px;">أ م</span>
-          </div>
+          </sc-for>
 
-          <sc-if value="{{ notif }}" hint-placeholder-val="{{ false }}">
-            <div style="margin: 12px 16px 0; border: 1px solid rgba(255,255,255,.11); border-radius: 12px; background: #121216; overflow: hidden; animation: riseIn .2s ease both;">
-              <sc-for list="{{ p.activity }}" as="a" hint-placeholder-count="4">
-                <div style="padding: 11px 14px; font-size: 12.5px; color: #C4C4CC; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: 10px;">
-                  <span style="{{ p.dotStyle }}"></span>
-                  <span>{{ a.text }}</span>
-                </div>
-              </sc-for>
-              <button onClick="{{ toggleNotif }}" style="width: 100%; padding: 10px; background: transparent; border: 0; color: #787882; font-family: inherit; font-size: 12px; cursor: pointer;">إغلاق</button>
-            </div>
-          </sc-if>
-
-          <div style="padding: 16px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center;">
-            <sc-for list="{{ ranges }}" as="r" hint-placeholder-count="4">
-              <button onClick="{{ r.select }}" style="{{ r.style }}">{{ r.label }}</button>
-            </sc-for>
-            <div style="flex: 1;"></div>
-            <span style="font-size: 11.5px; color: #6F6F79;">آخر تحديث: اليوم 09:42</span>
-          </div>
-
-          <div data-r="kpi" style="padding: 0 16px 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
-            <sc-for list="{{ p.kpis }}" as="k" hint-placeholder-count="6">
-              <div style="{{ k.cardStyle }}">
-                <div style="font-size: 11.5px; color: #787882;">{{ k.label }}</div>
-                <div style="font-size: 25px; font-weight: 600; letter-spacing: -.5px; margin-top: 8px;">{{ k.shown }}</div>
-                <div style="{{ k.deltaStyle }}">{{ k.delta }}</div>
-              </div>
-            </sc-for>
-          </div>
-
-          <div data-r="two" style="padding: 0 16px 16px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px;">
-            <div style="border: 1px solid rgba(255,255,255,.08); border-radius: 14px; background: rgba(255,255,255,.02); padding: 18px;">
-              <div style="font-size: 13.5px; font-weight: 500;">{{ p.chartTitle }}</div>
-              <div style="display: flex; align-items: flex-end; gap: 6px; height: 168px; margin-top: 20px;">
-                <sc-for list="{{ p.bars }}" as="b" hint-placeholder-count="12">
-                  <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 8px;">
-                    <div style="{{ b.style }}"></div>
-                    <div style="font-size: 9.5px; color: #5E5E68; text-align: center;">{{ b.label }}</div>
-                  </div>
-                </sc-for>
-              </div>
-            </div>
-            <div style="border: 1px solid rgba(255,255,255,.08); border-radius: 14px; background: rgba(255,255,255,.02); padding: 18px;">
-              <div style="font-size: 13.5px; font-weight: 500; margin-bottom: 16px;">النشاط الحديث</div>
-              <div style="display: flex; flex-direction: column; gap: 14px;">
-                <sc-for list="{{ p.activity }}" as="a" hint-placeholder-count="4">
-                  <div style="display: flex; gap: 10px;">
-                    <span style="{{ p.dotStyle }}"></span>
-                    <div style="min-width: 0;">
-                      <div style="font-size: 12.5px; color: #C4C4CC; line-height: 1.7;">{{ a.text }}</div>
-                      <div style="font-size: 10.5px; color: #5E5E68; margin-top: 3px;">{{ a.time }}</div>
-                    </div>
-                  </div>
-                </sc-for>
-              </div>
-            </div>
-          </div>
-
-          <div style="padding: 0 16px 18px;">
-            <div style="border: 1px solid rgba(255,255,255,.08); border-radius: 14px; overflow: hidden;">
-              <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02);">
-                <div style="font-size: 13.5px; font-weight: 500;">{{ p.tableTitle }}</div>
-                <div style="display: flex; gap: 7px;">
-                  <span style="font-size: 11.5px; color: #A6A6B0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 5px 10px;">تصفية</span>
-                  <span style="font-size: 11.5px; color: #A6A6B0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 5px 10px;">تصدير</span>
-                </div>
-              </div>
-              <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 620px;">
-                  <thead>
-                    <tr>
-                      <sc-for list="{{ p.cols }}" as="c" hint-placeholder-count="5">
-                        <th style="text-align: right; font-size: 11.5px; font-weight: 500; color: #787882; padding: 11px 16px; background: rgba(255,255,255,.015); border-bottom: 1px solid rgba(255,255,255,.06);">{{ c }}</th>
-                      </sc-for>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="4">
-                      <tr style="border-bottom: 1px solid rgba(255,255,255,.045);" style-hover="background: rgba(255,255,255,.03);">
-                        <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
-                          <td style="padding: 13px 16px; font-size: 12.5px; color: #C4C4CC; white-space: nowrap;">
-                            <sc-if value="{{ c.isStatus }}" hint-placeholder-val="{{ false }}">
-                              <span style="{{ c.pill }}">{{ c.v }}</span>
-                            </sc-if>
-                            <sc-if value="{{ c.plain }}" hint-placeholder-val="{{ true }}">{{ c.v }}</sc-if>
-                          </td>
-                        </sc-for>
-                      </tr>
-                    </sc-for>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div data-r="two" style="margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; border: 1px solid rgba(255,255,255,.09); border-radius: 18px; background: #0B0B0E; overflow: hidden;">
-        <div style="padding: clamp(20px,3vw,34px);">
-          <div style="font-size: 19px; font-weight: 600;">تطبيق الجوال — {{ p.product }}</div>
-          <div style="font-size: 13px; color: #8B8B95; line-height: 1.85; margin-top: 10px;">نفس البيانات، للعمل الميداني: متابعة سريعة وتحديث الحالة من الموقع.</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px;">
-            <sc-for list="{{ p.appTabs }}" as="t" hint-placeholder-count="4">
-              <span style="{{ t.style }}">{{ t.label }}</span>
-            </sc-for>
-          </div>
-        </div>
-        <div style="padding: 20px 0 24px; display: flex; justify-content: center; background: radial-gradient(460px 340px at 50% 20%, rgba(255,255,255,.08), transparent 72%);">
-          <div style="position: relative; width: 282px; height: 616px; flex-shrink: 0;">
-          <div style="position: absolute; top: 0; left: 0; width: 402px; height: 874px; transform: scale(.7); transform-origin: top left; border-radius: 58px; box-shadow: 0 0 0 2px rgba(255,255,255,.2), 0 0 0 14px rgba(255,255,255,.05), 0 40px 90px rgba(0,0,0,.7);">
-            <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
-              <div dir="rtl" style="height: 100%; background: #101014; border-radius: 44px; overflow: hidden; display: flex; flex-direction: column; font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;">
-                <div style="padding: 64px 20px 14px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid rgba(255,255,255,.07);">
-                  <span style="{{ p.smallMarkStyle }}">{{ p.mark }}</span>
-                  <span style="display: flex; flex-direction: column; line-height: 1.35;">
-                    <span style="font-size: 16px; font-weight: 600; color: #ECECEF;">{{ p.product }}</span>
-                    <span style="font-size: 11.5px; color: #6F6F79;">مؤسسة الأفق</span>
+
+      <!-- Grid View -->
+      <sc-if
+        value="{{ isGrid }}"
+        hint-placeholder-val="{{ true }}"
+      >
+        <main
+          style="
+            max-width: 1320px;
+            margin: 0 auto;
+            padding:
+              clamp(22px,3vw,34px)
+              clamp(14px,3vw,28px)
+              clamp(40px,6vw,70px);
+          "
+        >
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fill,minmax(290px,1fr));
+              gap: 12px;
+            "
+          >
+
+            <sc-for
+              list="{{ cards }}"
+              as="s"
+              hint-placeholder-count="15"
+            >
+
+              <button
+                onClick="{{ s.select }}"
+                style="{{ s.cardStyle }}"
+              >
+
+                <span
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                  "
+                >
+
+                  <span style="{{ s.markStyle }}">
+                    {{ s.mark }}
                   </span>
-                </div>
-                <div style="padding: 16px 16px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                  <sc-for list="{{ p.appTiles }}" as="t" hint-placeholder-count="2">
-                    <div style="{{ t.style }}">
-                      <div style="font-size: 11.5px; color: #787882;">{{ t.label }}</div>
-                      <div style="font-size: 23px; font-weight: 600; color: #ECECEF; margin-top: 6px;">{{ t.value }}</div>
-                    </div>
+
+                  <span
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: flex-start;
+                      line-height: 1.4;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 18px;
+                        font-weight: 600;
+                      "
+                    >
+                      {{ s.product }}
+                    </span>
+
+                    <span
+                      style="
+                        font-size: 12px;
+                        color: #787882;
+                      "
+                    >
+                      {{ s.sector }}
+                    </span>
+                  </span>
+
+                </span>
+
+                <span
+                  style="
+                    font-size: 13px;
+                    color: #9C9CA6;
+                    line-height: 1.8;
+                    text-align: right;
+                  "
+                >
+                  {{ s.desc }}
+                </span>
+
+                <span
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                  "
+                >
+
+                  <sc-for
+                    list="{{ s.topMods }}"
+                    as="m"
+                    hint-placeholder-count="4"
+                  >
+                    <span
+                      style="
+                        font-size: 11.5px;
+                        color: #A6A6B0;
+                        border: 1px solid rgba(255,255,255,.1);
+                        border-radius: 7px;
+                        padding: 4px 9px;
+                        white-space: nowrap;
+                        flex-shrink: 0;
+                      "
+                    >
+                      {{ m }}
+                    </span>
                   </sc-for>
-                </div>
-                <div style="padding: 20px 16px 8px; font-size: 12px; color: #6F6F79;">{{ p.tableTitle }}</div>
-                <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 9px;">
-                  <sc-for list="{{ p.appRows }}" as="r" hint-placeholder-count="4">
-                    <div style="padding: 14px; border-radius: 13px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); display: flex; align-items: center; gap: 10px;">
-                      <div style="min-width: 0; flex: 1;">
-                        <div style="font-size: 13.5px; color: #ECECEF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</div>
-                        <div style="font-size: 11.5px; color: #787882; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.sub }}</div>
-                      </div>
-                      <span style="{{ r.pill }}">{{ r.status }}</span>
-                    </div>
-                  </sc-for>
-                </div>
-                <div style="padding: 20px 16px 8px; font-size: 12px; color: #6F6F79;">النشاط الحديث</div>
-                <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 13px;">
-                  <sc-for list="{{ p.appActivity }}" as="a" hint-placeholder-count="3">
-                    <div style="display: flex; gap: 10px;">
-                      <span style="{{ p.dotStyle }}"></span>
-                      <div style="min-width: 0;">
-                        <div style="font-size: 12.5px; color: #C4C4CC; line-height: 1.65;">{{ a.text }}</div>
-                        <div style="font-size: 10.5px; color: #5E5E68; margin-top: 3px;">{{ a.time }}</div>
-                      </div>
-                    </div>
-                  </sc-for>
-                </div>
-                <div style="margin-top: auto; padding: 12px 10px 26px; border-top: 1px solid rgba(255,255,255,.07); display: flex; justify-content: space-around; gap: 6px;">
-                  <sc-for list="{{ p.appTabs }}" as="t" hint-placeholder-count="4">
-                    <span style="{{ t.tabStyle }}">{{ t.label }}</span>
-                  </sc-for>
-                </div>
+
+                </span>
+
+                <span style="{{ s.openStyle }}">
+                  افتح اللوحة ←
+                </span>
+
+              </button>
+
+            </sc-for>
+
+          </div>
+
+        </main>
+      </sc-if>
+
+
+      <!-- Single Product Dashboard -->
+      <sc-if
+        value="{{ isOne }}"
+        hint-placeholder-val="{{ false }}"
+      >
+
+        <main
+          style="
+            max-width: 1320px;
+            margin: 0 auto;
+            padding:
+              clamp(20px,3vw,30px)
+              clamp(14px,3vw,28px)
+              clamp(40px,6vw,70px);
+          "
+        >
+
+          <!-- Header -->
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              gap: 14px;
+              margin-bottom: 18px;
+            "
+          >
+
+            <span style="{{ p.bigMarkStyle }}">
+              {{ p.mark }}
+            </span>
+
+            <div>
+              <div
+                style="
+                  font-size: 26px;
+                  font-weight: 600;
+                  letter-spacing: -.5px;
+                "
+              >
+                {{ p.product }}
               </div>
-            </x-import>
+
+              <div
+                style="
+                  font-size: 13.5px;
+                  color: #8B8B95;
+                  margin-top: 4px;
+                "
+              >
+                {{ p.sector }} — {{ p.desc }}
+              </div>
+            </div>
+
+            <div style="flex: 1;"></div>
+
+            <span
+              style="
+                font-size: 11.5px;
+                color: #6F6F79;
+                border: 1px solid rgba(255,255,255,.1);
+                border-radius: 7px;
+                padding: 6px 11px;
+                white-space: nowrap;
+                flex-shrink: 0;
+              "
+            >
+              بيانات تجريبية
+            </span>
+
           </div>
+
+
+          <!-- Dashboard -->
+          <div
+            data-r="dash"
+            style="
+              display: grid;
+              grid-template-columns: 248px 1fr;
+              border: 1px solid rgba(255,255,255,.09);
+              border-radius: 18px;
+              overflow: hidden;
+              background: #0B0B0E;
+            "
+          >
+
+            <!-- Sidebar -->
+            <aside
+              data-r="dashside"
+              style="
+                border-inline-start: 1px solid rgba(255,255,255,.07);
+                background: #0D0D11;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+
+              <div
+                style="
+                  padding: 18px 18px 14px;
+                  border-bottom: 1px solid rgba(255,255,255,.07);
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                "
+              >
+
+                <span style="{{ p.smallMarkStyle }}">
+                  {{ p.mark }}
+                </span>
+
+                <span
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 1.35;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 14px;
+                      font-weight: 600;
+                    "
+                  >
+                    {{ p.product }}
+                  </span>
+
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: #6F6F79;
+                    "
+                  >
+                    مؤسسة الأفق
+                  </span>
+                </span>
+
+              </div>
+
+
+              <nav
+                style="
+                  padding: 10px 8px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 2px;
+                  max-height: 440px;
+                  overflow-y: auto;
+                "
+              >
+
+                <sc-for
+                  list="{{ p.navMods }}"
+                  as="m"
+                  hint-placeholder-count="12"
+                >
+
+                  <button
+                    onClick="{{ m.select }}"
+                    style="{{ m.style }}"
+                  >
+                    <span style="{{ m.bulletStyle }}"></span>
+                    <span>{{ m.label }}</span>
+                  </button>
+
+                </sc-for>
+
+              </nav>
+
+
+              <div
+                style="
+                  margin-top: auto;
+                  padding: 14px 16px;
+                  border-top: 1px solid rgba(255,255,255,.07);
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                "
+              >
+
+                <span
+                  style="
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 999px;
+                    background: rgba(255,255,255,.1);
+                    display: grid;
+                    place-items: center;
+                    font-size: 12px;
+                  "
+                >
+                  أ م
+                </span>
+
+                <span
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 1.3;
+                  "
+                >
+                  <span style="font-size: 12.5px;">
+                    أحمد محمد
+                  </span>
+
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: #6F6F79;
+                    "
+                  >
+                    مدير النظام
+                  </span>
+                </span>
+
+              </div>
+
+            </aside>
+
+
+            <!-- Main Dashboard -->
+            <div style="min-width: 0;">
+
+              <!-- Top Bar -->
+              <div
+                style="
+                  min-height: 58px;
+                  border-bottom: 1px solid rgba(255,255,255,.07);
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  padding: 10px 16px;
+                  background: #0C0C10;
+                "
+              >
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: rgba(255,255,255,.045);
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 9px;
+                    padding: 8px 12px;
+                    flex: 1;
+                    max-width: 340px;
+                  "
+                >
+
+                  <span
+                    style="
+                      font-size: 12px;
+                      color: #6F6F79;
+                    "
+                  >
+                    ◌
+                  </span>
+
+                  <input
+                    value="{{ query }}"
+                    onChange="{{ onQuery }}"
+                    placeholder="ابحث في {{ p.activeMod }}…"
+                    style="
+                      flex: 1;
+                      min-width: 0;
+                      background: transparent;
+                      border: 0;
+                      outline: none;
+                      color: #ECECEF;
+                      font-size: 12.5px;
+                    "
+                  >
+
+                </div>
+
+                <div style="flex: 1;"></div>
+
+                <div
+                  data-r="hide-sm"
+                  style="
+                    font-size: 12px;
+                    color: #787882;
+                  "
+                >
+                  {{ p.activeMod }}
+                </div>
+
+                <button
+                  onClick="{{ toggleNotif }}"
+                  style="
+                    position: relative;
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 9px;
+                    border: 1px solid rgba(255,255,255,.1);
+                    background: rgba(255,255,255,.04);
+                    color: #ECECEF;
+                    cursor: pointer;
+                    font-size: 13px;
+                  "
+                >
+                  ◔
+                  <span style="{{ p.badgeStyle }}"></span>
+                </button>
+
+                <span
+                  style="
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 999px;
+                    background: rgba(255,255,255,.1);
+                    display: grid;
+                    place-items: center;
+                    font-size: 11.5px;
+                  "
+                >
+                  أ م
+                </span>
+
+              </div>
+
+
+              <!-- Notifications -->
+              <sc-if
+                value="{{ notif }}"
+                hint-placeholder-val="{{ false }}"
+              >
+
+                <div
+                  style="
+                    margin: 12px 16px 0;
+                    border: 1px solid rgba(255,255,255,.11);
+                    border-radius: 12px;
+                    background: #121216;
+                    overflow: hidden;
+                    animation: riseIn .2s ease both;
+                  "
+                >
+
+                  <sc-for
+                    list="{{ p.activity }}"
+                    as="a"
+                    hint-placeholder-count="4"
+                  >
+
+                    <div
+                      style="
+                        padding: 11px 14px;
+                        font-size: 12.5px;
+                        color: #C4C4CC;
+                        border-bottom: 1px solid rgba(255,255,255,.05);
+                        display: flex;
+                        gap: 10px;
+                      "
+                    >
+                      <span style="{{ p.dotStyle }}"></span>
+                      <span>{{ a.text }}</span>
+                    </div>
+
+                  </sc-for>
+
+                  <button
+                    onClick="{{ toggleNotif }}"
+                    style="
+                      width: 100%;
+                      padding: 10px;
+                      background: transparent;
+                      border: 0;
+                      color: #787882;
+                      font-family: inherit;
+                      font-size: 12px;
+                      cursor: pointer;
+                    "
+                  >
+                    إغلاق
+                  </button>
+
+                </div>
+
+              </sc-if>
+
+
+              <!-- Filters -->
+              <div
+                style="
+                  padding: 16px;
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 7px;
+                  align-items: center;
+                "
+              >
+
+                <sc-for
+                  list="{{ ranges }}"
+                  as="r"
+                  hint-placeholder-count="4"
+                >
+                  <button
+                    onClick="{{ r.select }}"
+                    style="{{ r.style }}"
+                  >
+                    {{ r.label }}
+                  </button>
+                </sc-for>
+
+                <div style="flex: 1;"></div>
+
+                <span
+                  style="
+                    font-size: 11.5px;
+                    color: #6F6F79;
+                  "
+                >
+                  آخر تحديث: اليوم 09:42
+                </span>
+
+              </div>
+
+
+              <!-- KPI -->
+              <div
+                data-r="kpi"
+                style="
+                  padding: 0 16px 16px;
+                  display: grid;
+                  grid-template-columns: repeat(3,minmax(0,1fr));
+                  gap: 10px;
+                "
+              >
+
+                <sc-for
+                  list="{{ p.kpis }}"
+                  as="k"
+                  hint-placeholder-count="6"
+                >
+
+                  <div style="{{ k.cardStyle }}">
+
+                    <div
+                      style="
+                        font-size: 11.5px;
+                        color: #787882;
+                      "
+                    >
+                      {{ k.label }}
+                    </div>
+
+                    <div
+                      style="
+                        font-size: 25px;
+                        font-weight: 600;
+                        letter-spacing: -.5px;
+                        margin-top: 8px;
+                      "
+                    >
+                      {{ k.shown }}
+                    </div>
+
+                    <div style="{{ k.deltaStyle }}">
+                      {{ k.delta }}
+                    </div>
+
+                  </div>
+
+                </sc-for>
+
+              </div>
+
+
+              <!-- Chart + Activity -->
+              <div
+                data-r="two"
+                style="
+                  padding: 0 16px 16px;
+                  display: grid;
+                  grid-template-columns: 1.6fr 1fr;
+                  gap: 10px;
+                "
+              >
+
+                <!-- Chart -->
+                <div
+                  style="
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 14px;
+                    background: rgba(255,255,255,.02);
+                    padding: 18px;
+                  "
+                >
+
+                  <div
+                    style="
+                      font-size: 13.5px;
+                      font-weight: 500;
+                    "
+                  >
+                    {{ p.chartTitle }}
+                  </div>
+
+                  <div
+                    style="
+                      display: flex;
+                      align-items: flex-end;
+                      gap: 6px;
+                      height: 168px;
+                      margin-top: 20px;
+                    "
+                  >
+
+                    <sc-for
+                      list="{{ p.bars }}"
+                      as="b"
+                      hint-placeholder-count="12"
+                    >
+
+                      <div
+                        style="
+                          flex: 1;
+                          display: flex;
+                          flex-direction: column;
+                          justify-content: flex-end;
+                          height: 100%;
+                          gap: 8px;
+                        "
+                      >
+
+                        <div style="{{ b.style }}"></div>
+
+                        <div
+                          style="
+                            font-size: 9.5px;
+                            color: #5E5E68;
+                            text-align: center;
+                          "
+                        >
+                          {{ b.label }}
+                        </div>
+
+                      </div>
+
+                    </sc-for>
+
+                  </div>
+
+                </div>
+
+
+                <!-- Recent Activity -->
+                <div
+                  style="
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 14px;
+                    background: rgba(255,255,255,.02);
+                    padding: 18px;
+                  "
+                >
+
+                  <div
+                    style="
+                      font-size: 13.5px;
+                      font-weight: 500;
+                      margin-bottom: 16px;
+                    "
+                  >
+                    النشاط الحديث
+                  </div>
+
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      gap: 14px;
+                    "
+                  >
+
+                    <sc-for
+                      list="{{ p.activity }}"
+                      as="a"
+                      hint-placeholder-count="4"
+                    >
+
+                      <div
+                        style="
+                          display: flex;
+                          gap: 10px;
+                        "
+                      >
+
+                        <span style="{{ p.dotStyle }}"></span>
+
+                        <div style="min-width: 0;">
+
+                          <div
+                            style="
+                              font-size: 12.5px;
+                              color: #C4C4CC;
+                              line-height: 1.7;
+                            "
+                          >
+                            {{ a.text }}
+                          </div>
+
+                          <div
+                            style="
+                              font-size: 10.5px;
+                              color: #5E5E68;
+                              margin-top: 3px;
+                            "
+                          >
+                            {{ a.time }}
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </sc-for>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <!-- Table -->
+              <div
+                style="
+                  padding: 0 16px 18px;
+                "
+              >
+
+                <div
+                  style="
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 14px;
+                    overflow: hidden;
+                  "
+                >
+
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      gap: 10px;
+                      padding: 14px 16px;
+                      border-bottom: 1px solid rgba(255,255,255,.07);
+                      background: rgba(255,255,255,.02);
+                    "
+                  >
+
+                    <div
+                      style="
+                        font-size: 13.5px;
+                        font-weight: 500;
+                      "
+                    >
+                      {{ p.tableTitle }}
+                    </div>
+
+                    <div
+                      style="
+                        display: flex;
+                        gap: 7px;
+                      "
+                    >
+
+                      <button
+                        style="
+                          font-size: 11.5px;
+                          color: #A6A6B0;
+                          background: transparent;
+                          border: 1px solid rgba(255,255,255,.1);
+                          border-radius: 7px;
+                          padding: 5px 10px;
+                          cursor: pointer;
+                        "
+                      >
+                        تصفية
+                      </button>
+
+                      <button
+                        style="
+                          font-size: 11.5px;
+                          color: #A6A6B0;
+                          background: transparent;
+                          border: 1px solid rgba(255,255,255,.1);
+                          border-radius: 7px;
+                          padding: 5px 10px;
+                          cursor: pointer;
+                        "
+                      >
+                        تصدير
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <div style="overflow-x: auto;">
+
+                    <table
+                      style="
+                        width: 100%;
+                        border-collapse: collapse;
+                        min-width: 620px;
+                      "
+                    >
+
+                      <thead>
+                        <tr>
+
+                          <sc-for
+                            list="{{ p.cols }}"
+                            as="c"
+                            hint-placeholder-count="5"
+                          >
+
+                            <th
+                              style="
+                                text-align: right;
+                                font-size: 11.5px;
+                                font-weight: 500;
+                                color: #787882;
+                                padding: 11px 16px;
+                                background: rgba(255,255,255,.015);
+                                border-bottom: 1px solid rgba(255,255,255,.06);
+                              "
+                            >
+                              {{ c }}
+                            </th>
+
+                          </sc-for>
+
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+
+                        <sc-for
+                          list="{{ p.rows }}"
+                          as="r"
+                          hint-placeholder-count="4"
+                        >
+
+                          <tr
+                            style="
+                              border-bottom: 1px solid rgba(255,255,255,.045);
+                            "
+                          >
+
+                            <sc-for
+                              list="{{ r.cells }}"
+                              as="c"
+                              hint-placeholder-count="5"
+                            >
+
+                              <td
+                                style="
+                                  padding: 13px 16px;
+                                  font-size: 12.5px;
+                                  color: #C4C4CC;
+                                  white-space: nowrap;
+                                "
+                              >
+
+                                <sc-if
+                                  value="{{ c.isStatus }}"
+                                  hint-placeholder-val="{{ false }}"
+                                >
+                                  <span style="{{ c.pill }}">
+                                    {{ c.v }}
+                                  </span>
+                                </sc-if>
+
+                                <sc-if
+                                  value="{{ c.plain }}"
+                                  hint-placeholder-val="{{ true }}"
+                                >
+                                  {{ c.v }}
+                                </sc-if>
+
+                              </td>
+
+                            </sc-for>
+
+                          </tr>
+
+                        </sc-for>
+
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
           </div>
-        </div>
-      </div>
 
-      <div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center;">
-        <span style="font-size: 12px; color: #6F6F79; margin-inline-end: 6px;">الوحدات</span>
-        <sc-for list="{{ p.modChips }}" as="m" hint-placeholder-count="13">
-          <span style="{{ m.style }}">{{ m.label }}</span>
-        </sc-for>
-      </div>
 
-      <div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-        <button onClick="{{ prev }}" style="font-family: inherit; font-size: 13px; color: #A6A6B0; background: transparent; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; padding: 10px 16px; cursor: pointer; white-space: nowrap; flex-shrink: 0;" style-hover="color: #FFFFFF; background: rgba(255,255,255,.06);">→ السابق</button>
-        <button onClick="{{ next }}" style="{{ nextStyle }}">{{ nextLabel }} ←</button>
-      </div>
-    </main>
-  </sc-if>
-</div>
+          <!-- Mobile App -->
+          <div
+            data-r="two"
+            style="
+              margin-top: 18px;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 14px;
+              align-items: center;
+              border: 1px solid rgba(255,255,255,.09);
+              border-radius: 18px;
+              background: #0B0B0E;
+              overflow: hidden;
+            "
+          >
 
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;dashboardDensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;مريح&quot;,&quot;مضغوط&quot;],&quot;default&quot;:&quot;مريح&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;لوحة التحكم&quot;}}">
+            <div
+              style="
+                padding: clamp(20px,3vw,34px);
+              "
+            >
+
+              <div
+                style="
+                  font-size: 19px;
+                  font-weight: 600;
+                "
+              >
+                تطبيق الجوال — {{ p.product }}
+              </div>
+
+              <div
+                style="
+                  font-size: 13px;
+                  color: #8B8B95;
+                  line-height: 1.85;
+                  margin-top: 10px;
+                "
+              >
+                نفس البيانات، للعمل الميداني: متابعة سريعة وتحديث الحالة من الموقع.
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 7px;
+                  margin-top: 18px;
+                "
+              >
+
+                <sc-for
+                  list="{{ p.appTabs }}"
+                  as="t"
+                  hint-placeholder-count="4"
+                >
+                  <span style="{{ t.style }}">
+                    {{ t.label }}
+                  </span>
+                </sc-for>
+
+              </div>
+
+            </div>
+
+
+            <div
+              style="
+                padding: 20px 0 24px;
+                display: flex;
+                justify-content: center;
+                background:
+                  radial-gradient(
+                    460px 340px at 50% 20%,
+                    rgba(255,255,255,.08),
+                    transparent 72%
+                  );
+              "
+            >
+
+              <div
+                style="
+                  position: relative;
+                  width: 282px;
+                  height: 616px;
+                  flex-shrink: 0;
+                "
+              >
+
+                <div
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 402px;
+                    height: 874px;
+                    transform: scale(.7);
+                    transform-origin: top left;
+                    border-radius: 58px;
+                    box-shadow:
+                      0 0 0 2px rgba(255,255,255,.2),
+                      0 0 0 14px rgba(255,255,255,.05),
+                      0 40px 90px rgba(0,0,0,.7);
+                  "
+                >
+
+                  <x-import
+                    component-from-global-scope="IOSDevice"
+                    from="./ios-frame.jsx"
+                    dark="{{ true }}"
+                    hint-size="402px,874px"
+                  >
+
+                    <div
+                      dir="rtl"
+                      style="
+                        height: 100%;
+                        background: #101014;
+                        border-radius: 44px;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        font-family:
+                          'IBM Plex Sans Arabic',
+                          system-ui,
+                          sans-serif;
+                      "
+                    >
+
+                      <div
+                        style="
+                          padding: 64px 20px 14px;
+                          display: flex;
+                          align-items: center;
+                          gap: 11px;
+                          border-bottom: 1px solid rgba(255,255,255,.07);
+                        "
+                      >
+
+                        <span style="{{ p.smallMarkStyle }}">
+                          {{ p.mark }}
+                        </span>
+
+                        <span
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            line-height: 1.35;
+                          "
+                        >
+
+                          <span
+                            style="
+                              font-size: 16px;
+                              font-weight: 600;
+                              color: #ECECEF;
+                            "
+                          >
+                            {{ p.product }}
+                          </span>
+
+                          <span
+                            style="
+                              font-size: 11.5px;
+                              color: #6F6F79;
+                            "
+                          >
+                            مؤسسة الأفق
+                          </span>
+
+                        </span>
+
+                      </div>
+
+
+                      <div
+                        style="
+                          padding: 16px 16px 0;
+                          display: grid;
+                          grid-template-columns: 1fr 1fr;
+                          gap: 10px;
+                        "
+                      >
+
+                        <sc-for
+                          list="{{ p.appTiles }}"
+                          as="t"
+                          hint-placeholder-count="2"
+                        >
+
+                          <div style="{{ t.style }}">
+
+                            <div
+                              style="
+                                font-size: 11.5px;
+                                color: #787882;
+                              "
+                            >
+                              {{ t.label }}
+                            </div>
+
+                            <div
+                              style="
+                                font-size: 23px;
+                                font-weight: 600;
+                                color: #ECECEF;
+                                margin-top: 6px;
+                              "
+                            >
+                              {{ t.value }}
+                            </div>
+
+                          </div>
+
+                        </sc-for>
+
+                      </div>
+
+
+                      <div
+                        style="
+                          padding: 20px 16px 8px;
+                          font-size: 12px;
+                          color: #6F6F79;
+                        "
+                      >
+                        {{ p.tableTitle }}
+                      </div>
+
+
+                      <div
+                        style="
+                          padding: 0 16px;
+                          display: flex;
+                          flex-direction: column;
+                          gap: 9px;
+                        "
+                      >
+
+                        <sc-for
+                          list="{{ p.appRows }}"
+                          as="r"
+                          hint-placeholder-count="4"
+                        >
+
+                          <div
+                            style="
+                              padding: 14px;
+                              border-radius: 13px;
+                              border: 1px solid rgba(255,255,255,.08);
+                              background: rgba(255,255,255,.03);
+                              display: flex;
+                              align-items: center;
+                              gap: 10px;
+                            "
+                          >
+
+                            <div
+                              style="
+                                min-width: 0;
+                                flex: 1;
+                              "
+                            >
+
+                              <div
+                                style="
+                                  font-size: 13.5px;
+                                  color: #ECECEF;
+                                  white-space: nowrap;
+                                  overflow: hidden;
+                                  text-overflow: ellipsis;
+                                "
+                              >
+                                {{ r.title }}
+                              </div>
+
+                              <div
+                                style="
+                                  font-size: 11.5px;
+                                  color: #787882;
+                                  margin-top: 4px;
+                                  white-space: nowrap;
+                                  overflow: hidden;
+                                  text-overflow: ellipsis;
+                                "
+                              >
+                                {{ r.sub }}
+                              </div>
+
+                            </div>
+
+                            <span style="{{ r.pill }}">
+                              {{ r.status }}
+                            </span>
+
+                          </div>
+
+                        </sc-for>
+
+                      </div>
+
+
+                      <div
+                        style="
+                          padding: 20px 16px 8px;
+                          font-size: 12px;
+                          color: #6F6F79;
+                        "
+                      >
+                        النشاط الحديث
+                      </div>
+
+
+                      <div
+                        style="
+                          padding: 0 16px;
+                          display: flex;
+                          flex-direction: column;
+                          gap: 13px;
+                        "
+                      >
+
+                        <sc-for
+                          list="{{ p.appActivity }}"
+                          as="a"
+                          hint-placeholder-count="3"
+                        >
+
+                          <div
+                            style="
+                              display: flex;
+                              gap: 10px;
+                            "
+                          >
+
+                            <span style="{{ p.dotStyle }}"></span>
+
+                            <div style="min-width: 0;">
+
+                              <div
+                                style="
+                                  font-size: 12.5px;
+                                  color: #C4C4CC;
+                                  line-height: 1.65;
+                                "
+                              >
+                                {{ a.text }}
+                              </div>
+
+                              <div
+                                style="
+                                  font-size: 10.5px;
+                                  color: #5E5E68;
+                                  margin-top: 3px;
+                                "
+                              >
+                                {{ a.time }}
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </sc-for>
+
+                      </div>
+
+
+                      <div
+                        style="
+                          margin-top: auto;
+                          padding: 12px 10px 26px;
+                          border-top: 1px solid rgba(255,255,255,.07);
+                          display: flex;
+                          justify-content: space-around;
+                          gap: 6px;
+                        "
+                      >
+
+                        <sc-for
+                          list="{{ p.appTabs }}"
+                          as="t"
+                          hint-placeholder-count="4"
+                        >
+                          <span style="{{ t.tabStyle }}">
+                            {{ t.label }}
+                          </span>
+                        </sc-for>
+
+                      </div>
+
+                    </div>
+
+                  </x-import>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Modules -->
+          <div
+            style="
+              margin-top: 18px;
+              display: flex;
+              flex-wrap: wrap;
+              gap: 7px;
+              align-items: center;
+            "
+          >
+
+            <span
+              style="
+                font-size: 12px;
+                color: #6F6F79;
+                margin-inline-end: 6px;
+              "
+            >
+              الوحدات
+            </span>
+
+            <sc-for
+              list="{{ p.modChips }}"
+              as="m"
+              hint-placeholder-count="13"
+            >
+              <span style="{{ m.style }}">
+                {{ m.label }}
+              </span>
+            </sc-for>
+
+          </div>
+
+
+          <!-- Pagination -->
+          <div
+            style="
+              margin-top: 22px;
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              align-items: center;
+            "
+          >
+
+            <button
+              onClick="{{ prev }}"
+              style="
+                font-family: inherit;
+                font-size: 13px;
+                color: #A6A6B0;
+                background: transparent;
+                border: 1px solid rgba(255,255,255,.12);
+                border-radius: 9px;
+                padding: 10px 16px;
+                cursor: pointer;
+                white-space: nowrap;
+                flex-shrink: 0;
+              "
+            >
+              → السابق
+            </button>
+
+            <button
+              onClick="{{ next }}"
+              style="{{ nextStyle }}"
+            >
+              {{ nextLabel }} ←
+            </button>
+
+          </div>
+
+        </main>
+
+      </sc-if>
+
+    </div>
+
+  </x-dc>
+
+
+  <script
+    type="text/x-dc"
+    data-dc-script
+    data-props="{&quot;dashboardDensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;مريح&quot;,&quot;مضغوط&quot;],&quot;default&quot;:&quot;مريح&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;لوحة التحكم&quot;}}"
+  >
+
 class Component extends DCLogic {
-  state = { view: 'grid', i: 0, mod: 0, notif: false, range: 1, k: 1, query: '' };
+
+  state = {
+    view: 'grid',
+    i: 0,
+    mod: 0,
+    notif: false,
+    range: 1,
+    k: 1,
+    query: ''
+  };
 
   SECTORS = [
-    { id: 'law', s: 'المحاماة', p: 'مِهَن', m: 'مِ', c: '#8B5CF6', d: 'إدارة مكاتب المحاماة والقضايا والعملاء.',
+    {
+      id: 'law',
+      s: 'المحاماة',
+      p: 'مِهَن',
+      m: 'مِ',
+      c: '#8B5CF6',
+      d: 'إدارة مكاتب المحاماة والقضايا والعملاء.',
       mods: ['القضايا','العملاء','الجلسات','المواعيد','المهام','العقود','المستندات','الفواتير','تسجيل الوقت','الموظفون','التنبيهات','التقارير','مساعد ذكي'],
-      kpi: [['القضايا النشطة',128,''],['الجلسات القادمة',14,''],['المهام المستحقة',37,''],['العملاء',86,''],['الإيرادات',412,' ألف'],['المواعيد النهائية',9,'']],
-      ch: 'الإيرادات الشهرية', tt: 'القضايا النشطة',
+      kpi: [
+        ['القضايا النشطة',128,''],
+        ['الجلسات القادمة',14,''],
+        ['المهام المستحقة',37,''],
+        ['العملاء',86,''],
+        ['الإيرادات',412,' ألف'],
+        ['المواعيد النهائية',9,'']
+      ],
+      ch: 'الإيرادات الشهرية',
+      tt: 'القضايا النشطة',
       cols: ['القضية','العميل','الحالة','المحامي','الجلسة القادمة'],
-      rows: [['نزاع تجاري — 2451','شركة الأفق','قيد التنفيذ','أحمد محمد','12 مارس'],['مطالبة مالية — 2388','مؤسسة البناء المتقدم','معلق','سارة العتيبي','19 مارس'],['عقد توريد — 2402','شركة النخبة','مكتمل','خالد الحربي','—'],['قضية عمالية — 2419','مكتب المستقبل','قيد التنفيذ','نورة القحطاني','26 مارس']],
-      act: ['أضاف أحمد محمد مذكرة إلى القضية 2451','تم تحديث موعد جلسة القضية 2388','رفع خالد الحربي 3 مستندات جديدة','تم إصدار فاتورة لشركة الأفق'] },
+      rows: [
+        ['نزاع تجاري — 2451','شركة الأفق','قيد التنفيذ','أحمد محمد','12 مارس'],
+        ['مطالبة مالية — 2388','مؤسسة البناء المتقدم','معلق','سارة العتيبي','19 مارس'],
+        ['عقد توريد — 2402','شركة النخبة','مكتمل','خالد الحربي','—'],
+        ['قضية عمالية — 2419','مكتب المستقبل','قيد التنفيذ','نورة القحطاني','26 مارس']
+      ],
+      act: [
+        'أضاف أحمد محمد مذكرة إلى القضية 2451',
+        'تم تحديث موعد جلسة القضية 2388',
+        'رفع خالد الحربي 3 مستندات جديدة',
+        'تم إصدار فاتورة لشركة الأفق'
+      ]
+    },
 
-    { id: 'build', s: 'المقاولات', p: 'بِناء', m: 'بِ', c: '#F97316', d: 'المشاريع الإنشائية والمواقع والعمال والمعدات.',
+    {
+      id: 'build',
+      s: 'المقاولات',
+      p: 'بِناء',
+      m: 'بِ',
+      c: '#F97316',
+      d: 'المشاريع الإنشائية والمواقع والعمال والمعدات.',
       mods: ['المشاريع','المواقع','المهام','العمال','المقاولون','المعدات','المواد','أوامر الشراء','نسب الإنجاز','التقارير اليومية','المستندات','المصروفات','الفواتير','بوابة العميل'],
-      kpi: [['المشاريع النشطة',24,''],['نسبة الإنجاز',68,'%'],['الميزانية المنفذة',74,'%'],['المواقع',11,''],['العمال',312,''],['المشكلات المفتوحة',17,'']],
-      ch: 'تقدم الإنجاز الشهري', tt: 'المشاريع النشطة',
+      kpi: [
+        ['المشاريع النشطة',24,''],
+        ['نسبة الإنجاز',68,'%'],
+        ['الميزانية المنفذة',74,'%'],
+        ['المواقع',11,''],
+        ['العمال',312,''],
+        ['المشكلات المفتوحة',17,'']
+      ],
+      ch: 'تقدم الإنجاز الشهري',
+      tt: 'المشاريع النشطة',
       cols: ['المشروع','العميل','الحالة','نسبة الإنجاز','مدير المشروع'],
-      rows: [['برج الواجهة — الرياض','شركة الأفق','قيد التنفيذ','72%','خالد الحربي'],['مجمع سكني — جدة','مؤسسة البناء المتقدم','متأخر','41%','أحمد محمد'],['توسعة مستودع','شركة النخبة','مكتمل','100%','نورة القحطاني'],['مبنى إداري','مكتب المستقبل','مجدول','8%','سارة العتيبي']],
-      act: ['رفع مشرف الموقع التقرير اليومي لبرج الواجهة','تم اعتماد أمر شراء مواد للمجمع السكني','تحديث نسبة الإنجاز إلى 72%','تسجيل مشكلة جديدة في موقع جدة'] },
+      rows: [
+        ['برج الواجهة — الرياض','شركة الأفق','قيد التنفيذ','72%','خالد الحربي'],
+        ['مجمع سكني — جدة','مؤسسة البناء المتقدم','متأخر','41%','أحمد محمد'],
+        ['توسعة مستودع','شركة النخبة','مكتمل','100%','نورة القحطاني'],
+        ['مبنى إداري','مكتب المستقبل','مجدول','8%','سارة العتيبي']
+      ],
+      act: [
+        'رفع مشرف الموقع التقرير اليومي لبرج الواجهة',
+        'تم اعتماد أمر شراء مواد للمجمع السكني',
+        'تحديث نسبة الإنجاز إلى 72%',
+        'تسجيل مشكلة جديدة في موقع جدة'
+      ]
+    },
 
-    { id: 'eng', s: 'المكاتب الهندسية', p: 'هندسة', m: 'هـ', c: '#3B82F6', d: 'المشاريع الهندسية والمخططات والاعتمادات.',
+    {
+      id: 'eng',
+      s: 'المكاتب الهندسية',
+      p: 'هندسة',
+      m: 'هـ',
+      c: '#3B82F6',
+      d: 'المشاريع الهندسية والمخططات والاعتمادات.',
       mods: ['المشاريع','العملاء','المخططات','الإصدارات','جداول الكميات','المستندات','الاعتمادات','المهام','الزيارات الميدانية','الاستشاريون','العقود','الفواتير','تحليلات المشاريع'],
-      kpi: [['المشاريع',38,''],['قيد التصميم',12,''],['إصدارات المخططات',146,''],['الاعتمادات المعلقة',9,''],['الزيارات الميدانية',21,''],['الإيرادات',298,' ألف']],
-      ch: 'الإصدارات المعتمدة شهريًا', tt: 'المشاريع الهندسية',
+      kpi: [
+        ['المشاريع',38,''],
+        ['قيد التصميم',12,''],
+        ['إصدارات المخططات',146,''],
+        ['الاعتمادات المعلقة',9,''],
+        ['الزيارات الميدانية',21,''],
+        ['الإيرادات',298,' ألف']
+      ],
+      ch: 'الإصدارات المعتمدة شهريًا',
+      tt: 'المشاريع الهندسية',
       cols: ['المشروع','العميل','الحالة','آخر إصدار','الاعتماد'],
-      rows: [['مخططات مبنى إداري','شركة الأفق','قيد التنفيذ','R-07','قيد المراجعة'],['تصميم مصنع','مؤسسة البناء المتقدم','معلق','R-03','معلق'],['فيلا خاصة — الدرعية','شركة النخبة','مكتمل','R-12','معتمد'],['جداول كميات — مستشفى','مكتب المستقبل','قيد التنفيذ','R-05','قيد المراجعة']],
-      act: ['رفع الاستشاري الإصدار R-07','تم اعتماد جداول الكميات للمشروع 118','ملاحظة جديدة على مخطط الواجهات','جدولة زيارة ميدانية الأسبوع القادم'] },
+      rows: [
+        ['مخططات مبنى إداري','شركة الأفق','قيد التنفيذ','R-07','قيد المراجعة'],
+        ['تصميم مصنع','مؤسسة البناء المتقدم','معلق','R-03','معلق'],
+        ['فيلا خاصة — الدرعية','شركة النخبة','مكتمل','R-12','معتمد'],
+        ['جداول كميات — مستشفى','مكتب المستقبل','قيد التنفيذ','R-05','قيد المراجعة']
+      ],
+      act: [
+        'رفع الاستشاري الإصدار R-07',
+        'تم اعتماد جداول الكميات للمشروع 118',
+        'ملاحظة جديدة على مخطط الواجهات',
+        'جدولة زيارة ميدانية الأسبوع القادم'
+      ]
+    },
 
-    { id: 'mfg', s: 'التصنيع', p: 'مصنع', m: 'مص', c: '#94A3B8', d: 'الإنتاج والمخزون والجودة والصيانة.',
+    {
+      id: 'mfg',
+      s: 'التصنيع',
+      p: 'مصنع',
+      m: 'مص',
+      c: '#94A3B8',
+      d: 'الإنتاج والمخزون والجودة والصيانة.',
       mods: ['تخطيط الإنتاج','أوامر الإنتاج','المخزون','المواد الخام','الآلات','الصيانة','مراقبة الجودة','الموردون','أوامر الشراء','الموظفون','تحليلات الإنتاج'],
-      kpi: [['إنتاج اليوم',1840,' وحدة'],['أوامر الإنتاج',46,''],['أصناف المخزون',512,''],['آلات متوقفة',3,''],['مشكلات الجودة',7,''],['كفاءة الإنتاج',87,'%']],
-      ch: 'الإنتاج اليومي', tt: 'أوامر الإنتاج',
+      kpi: [
+        ['إنتاج اليوم',1840,' وحدة'],
+        ['أوامر الإنتاج',46,''],
+        ['أصناف المخزون',512,''],
+        ['آلات متوقفة',3,''],
+        ['مشكلات الجودة',7,''],
+        ['كفاءة الإنتاج',87,'%']
+      ],
+      ch: 'الإنتاج اليومي',
+      tt: 'أوامر الإنتاج',
       cols: ['أمر الإنتاج','الخط','الحالة','الكمية','المسؤول'],
-      rows: [['أمر — 9042','الخط أ','قيد التنفيذ','1,200','أحمد محمد'],['أمر — 9038','الخط ب','متأخر','800','سارة العتيبي'],['أمر — 9031','الخط ج','مكتمل','2,400','خالد الحربي'],['أمر — 9047','الخط أ','مجدول','1,000','نورة القحطاني']],
-      act: ['بدء تشغيل أمر الإنتاج 9042','تسجيل ملاحظة جودة على الدفعة 118','طلب صيانة وقائية للآلة M-04','استلام مواد خام من مورد النخبة'] },
+      rows: [
+        ['أمر — 9042','الخط أ','قيد التنفيذ','1,200','أحمد محمد'],
+        ['أمر — 9038','الخط ب','متأخر','800','سارة العتيبي'],
+        ['أمر — 9031','الخط ج','مكتمل','2,400','خالد الحربي'],
+        ['أمر — 9047','الخط أ','مجدول','1,000','نورة القحطاني']
+      ],
+      act: [
+        'بدء تشغيل أمر الإنتاج 9042',
+        'تسجيل ملاحظة جودة على الدفعة 118',
+        'طلب صيانة وقائية للآلة M-04',
+        'استلام مواد خام من مورد النخبة'
+      ]
+    },
 
-    { id: 'health', s: 'الرعاية الصحية', p: 'رعاية', m: 'ر', c: '#10B981', d: 'العيادات والمواعيد والملفات والفوترة.',
+    {
+      id: 'health',
+      s: 'الرعاية الصحية',
+      p: 'رعاية',
+      m: 'ر',
+      c: '#10B981',
+      d: 'العيادات والمواعيد والملفات والفوترة.',
       mods: ['المرضى','المواعيد','الموظفون','الملفات','المستندات','الفواتير','الخطط العلاجية','التنبيهات','التقارير','بوابة المرضى'],
-      kpi: [['مواعيد اليوم',64,''],['المرضى',1280,''],['الإيرادات',186,' ألف'],['الموظفون',22,''],['المواعيد القادمة',148,''],['نسبة الحضور',91,'%']],
-      ch: 'المواعيد الأسبوعية', tt: 'مواعيد اليوم',
+      kpi: [
+        ['مواعيد اليوم',64,''],
+        ['المرضى',1280,''],
+        ['الإيرادات',186,' ألف'],
+        ['الموظفون',22,''],
+        ['المواعيد القادمة',148,''],
+        ['نسبة الحضور',91,'%']
+      ],
+      ch: 'المواعيد الأسبوعية',
+      tt: 'مواعيد اليوم',
       cols: ['المريض','العيادة','الحالة','الطبيب','الوقت'],
-      rows: [['عبدالله السالم','الأسنان','قيد التنفيذ','د. سارة العتيبي','09:30'],['منى الزهراني','الجلدية','مجدول','د. أحمد محمد','10:15'],['فهد العمري','الباطنية','مكتمل','د. خالد الحربي','08:45'],['ليلى القحطاني','الأسنان','معلق','د. نورة القحطاني','11:00']],
-      act: ['تأكيد موعد للمريض عبدالله السالم','تحديث الخطة العلاجية لملف 4412','إصدار فاتورة لموعد اليوم','إضافة نتيجة مختبر إلى ملف مريض'] },
+      rows: [
+        ['عبدالله السالم','الأسنان','قيد التنفيذ','د. سارة العتيبي','09:30'],
+        ['منى الزهراني','الجلدية','مجدول','د. أحمد محمد','10:15'],
+        ['فهد العمري','الباطنية','مكتمل','د. خالد الحربي','08:45'],
+        ['ليلى القحطاني','الأسنان','معلق','د. نورة القحطاني','11:00']
+      ],
+      act: [
+        'تأكيد موعد للمريض عبدالله السالم',
+        'تحديث الخطة العلاجية لملف 4412',
+        'إصدار فاتورة لموعد اليوم',
+        'إضافة نتيجة مختبر إلى ملف مريض'
+      ]
+    },
 
-    { id: 'estate', s: 'العقارات', p: 'عقار', m: 'ع', c: '#D4A24C', d: 'العقارات والمستأجرين والعقود والتحصيل.',
+    {
+      id: 'estate',
+      s: 'العقارات',
+      p: 'عقار',
+      m: 'ع',
+      c: '#D4A24C',
+      d: 'العقارات والمستأجرين والعقود والتحصيل.',
       mods: ['العقارات','الوحدات','المستأجرون','العملاء المحتملون','الإعلانات','العقود','عقود الإيجار','التحصيل','الصيانة','المستندات','العمولات','التقارير'],
-      kpi: [['العقارات',47,''],['نسبة الإشغال',88,'%'],['الإيرادات الشهرية',264,' ألف'],['طلبات الصيانة',19,''],['عقود تنتهي قريبًا',12,''],['العملاء المحتملون',73,'']],
-      ch: 'التحصيل الشهري', tt: 'الوحدات والعقود',
+      kpi: [
+        ['العقارات',47,''],
+        ['نسبة الإشغال',88,'%'],
+        ['الإيرادات الشهرية',264,' ألف'],
+        ['طلبات الصيانة',19,''],
+        ['عقود تنتهي قريبًا',12,''],
+        ['العملاء المحتملون',73,'']
+      ],
+      ch: 'التحصيل الشهري',
+      tt: 'الوحدات والعقود',
       cols: ['الوحدة','المستأجر','الحالة','قيمة العقد','نهاية العقد'],
-      rows: [['برج الأفق — 1204','شركة النخبة','نشط','120,000','12 مايو'],['مجمع النرجس — 08','مؤسسة البناء المتقدم','متأخر','78,000','2 أبريل'],['مكتب المستقبل — 3A','مكتب المستقبل','نشط','96,000','30 سبتمبر'],['شقة الياسمين — 21','عبدالله السالم','منتهي','45,000','—']],
-      act: ['سداد دفعة إيجار للوحدة 1204','طلب صيانة جديد في مجمع النرجس','إضافة عميل محتمل من إعلان','تجديد عقد مكتب المستقبل'] },
+      rows: [
+        ['برج الأفق — 1204','شركة النخبة','نشط','120,000','12 مايو'],
+        ['مجمع النرجس — 08','مؤسسة البناء المتقدم','متأخر','78,000','2 أبريل'],
+        ['مكتب المستقبل — 3A','مكتب المستقبل','نشط','96,000','30 سبتمبر'],
+        ['شقة الياسمين — 21','عبدالله السالم','منتهي','45,000','—']
+      ],
+      act: [
+        'سداد دفعة إيجار للوحدة 1204',
+        'طلب صيانة جديد في مجمع النرجس',
+        'إضافة عميل محتمل من إعلان',
+        'تجديد عقد مكتب المستقبل'
+      ]
+    },
 
-    { id: 'acct', s: 'المحاسبة والتدقيق', p: 'دفتر', m: 'د', c: '#1D4ED8', d: 'ملفات العملاء والمهام والمواعيد النظامية.',
+    {
+      id: 'acct',
+      s: 'المحاسبة والتدقيق',
+      p: 'دفتر',
+      m: 'د',
+      c: '#1D4ED8',
+      d: 'ملفات العملاء والمهام والمواعيد النظامية.',
       mods: ['العملاء','الملفات','المهام','المستندات','المواعيد النهائية','الفواتير','المدفوعات','الفريق','تقارير التدقيق','أوراق العمل'],
-      kpi: [['العملاء',94,''],['الملفات النشطة',132,''],['المواعيد النهائية',18,''],['فواتير مستحقة',27,''],['عبء الفريق',82,'%'],['الإيرادات',221,' ألف']],
-      ch: 'الملفات المنجزة شهريًا', tt: 'ملفات العملاء',
+      kpi: [
+        ['العملاء',94,''],
+        ['الملفات النشطة',132,''],
+        ['المواعيد النهائية',18,''],
+        ['فواتير مستحقة',27,''],
+        ['عبء الفريق',82,'%'],
+        ['الإيرادات',221,' ألف']
+      ],
+      ch: 'الملفات المنجزة شهريًا',
+      tt: 'ملفات العملاء',
       cols: ['الملف','العميل','الحالة','المسؤول','الموعد النهائي'],
-      rows: [['إقرار ضريبي — Q1','شركة الأفق','قيد التنفيذ','سارة العتيبي','15 أبريل'],['تدقيق سنوي','مؤسسة البناء المتقدم','قيد المراجعة','أحمد محمد','30 أبريل'],['إغلاق شهري','شركة النخبة','مكتمل','خالد الحربي','—'],['مراجعة رواتب','مكتب المستقبل','متأخر','نورة القحطاني','5 أبريل']],
-      act: ['رفع العميل مستندات الإقرار الضريبي','إسناد ملف تدقيق إلى أحمد محمد','إكمال أوراق العمل للإغلاق الشهري','إصدار فاتورة لشركة النخبة'] },
+      rows: [
+        ['إقرار ضريبي — Q1','شركة الأفق','قيد التنفيذ','سارة العتيبي','15 أبريل'],
+        ['تدقيق سنوي','مؤسسة البناء المتقدم','قيد المراجعة','أحمد محمد','30 أبريل'],
+        ['إغلاق شهري','شركة النخبة','مكتمل','خالد الحربي','—'],
+        ['مراجعة رواتب','مكتب المستقبل','متأخر','نورة القحطاني','5 أبريل']
+      ],
+      act: [
+        'رفع العميل مستندات الإقرار الضريبي',
+        'إسناد ملف تدقيق إلى أحمد محمد',
+        'إكمال أوراق العمل للإغلاق الشهري',
+        'إصدار فاتورة لشركة النخبة'
+      ]
+    },
 
-    { id: 'fleet', s: 'اللوجستيات والأساطيل', p: 'مسار', m: 'مس', c: '#22D3EE', d: 'المركبات والسائقين والرحلات والتوصيل.',
+    {
+      id: 'fleet',
+      s: 'اللوجستيات والأساطيل',
+      p: 'مسار',
+      m: 'مس',
+      c: '#22D3EE',
+      d: 'المركبات والسائقين والرحلات والتوصيل.',
       mods: ['المركبات','السائقون','الرحلات','المسارات','التوصيل','الصيانة','الوقود','المستندات','العملاء','المصروفات','تحليلات الأسطول'],
-      kpi: [['المركبات النشطة',62,''],['السائقون',78,''],['عمليات التوصيل اليوم',214,''],['تكلفة الوقود',38,' ألف'],['مركبات في الصيانة',6,''],['الالتزام بالمواعيد',94,'%']],
-      ch: 'عمليات التوصيل اليومية', tt: 'الرحلات الجارية',
+      kpi: [
+        ['المركبات النشطة',62,''],
+        ['السائقون',78,''],
+        ['عمليات التوصيل اليوم',214,''],
+        ['تكلفة الوقود',38,' ألف'],
+        ['مركبات في الصيانة',6,''],
+        ['الالتزام بالمواعيد',94,'%']
+      ],
+      ch: 'عمليات التوصيل اليومية',
+      tt: 'الرحلات الجارية',
       cols: ['الرحلة','المركبة','الحالة','السائق','الوصول المتوقع'],
-      rows: [['الرياض ← القصيم','TRK-114','قيد التنفيذ','خالد الحربي','14:20'],['جدة ← مكة','VAN-032','مكتمل','أحمد محمد','—'],['الدمام ← الأحساء','TRK-087','متأخر','عبدالله السالم','16:05'],['الرياض ← الخرج','VAN-051','مجدول','فهد العمري','18:30']],
-      act: ['بدء رحلة الرياض ← القصيم','تسجيل تزود بالوقود للمركبة TRK-114','إتمام 12 عملية توصيل في مسار جدة','فتح طلب صيانة للمركبة VAN-032'] },
+      rows: [
+        ['الرياض ← القصيم','TRK-114','قيد التنفيذ','خالد الحربي','14:20'],
+        ['جدة ← مكة','VAN-032','مكتمل','أحمد محمد','—'],
+        ['الدمام ← الأحساء','TRK-087','متأخر','عبدالله السالم','16:05'],
+        ['الرياض ← الخرج','VAN-051','مجدول','فهد العمري','18:30']
+      ],
+      act: [
+        'بدء رحلة الرياض ← القصيم',
+        'تسجيل تزود بالوقود للمركبة TRK-114',
+        'إتمام 12 عملية توصيل في مسار جدة',
+        'فتح طلب صيانة للمركبة VAN-032'
+      ]
+    },
 
-    { id: 'guard', s: 'الأمن والقوى العاملة', p: 'حراسة', m: 'ح', c: '#B91C1C', d: 'المواقع والورديات والحضور والجولات.',
+    {
+      id: 'guard',
+      s: 'الأمن والقوى العاملة',
+      p: 'حراسة',
+      m: 'ح',
+      c: '#B91C1C',
+      d: 'المواقع والورديات والحضور والجولات.',
       mods: ['الموظفون','أفراد الأمن','المواقع','الورديات','الحضور','الجولات','الحوادث','التقارير','العملاء','العقود','التكليفات'],
-      kpi: [['أفراد نشطون',248,''],['المواقع',34,''],['الورديات الحالية',19,''],['نسبة الحضور',96,'%'],['حوادث مفتوحة',4,''],['تكليفات مفتوحة',11,'']],
-      ch: 'الجولات المنفذة يوميًا', tt: 'الورديات الحالية',
+      kpi: [
+        ['أفراد نشطون',248,''],
+        ['المواقع',34,''],
+        ['الورديات الحالية',19,''],
+        ['نسبة الحضور',96,'%'],
+        ['حوادث مفتوحة',4,''],
+        ['تكليفات مفتوحة',11,'']
+      ],
+      ch: 'الجولات المنفذة يوميًا',
+      tt: 'الورديات الحالية',
       cols: ['الموقع','العميل','الحالة','المشرف','الوردية'],
-      rows: [['مجمع الأفق','شركة الأفق','نشط','خالد الحربي','صباحية'],['مستودع النخبة','شركة النخبة','نشط','أحمد محمد','ليلية'],['مبنى المستقبل','مكتب المستقبل','معلق','عبدالله السالم','مسائية'],['موقع البناء المتقدم','مؤسسة البناء المتقدم','مكتمل','فهد العمري','صباحية']],
-      act: ['تسجيل حضور 42 فردًا في وردية الصباح','إتمام جولة تفتيش في مجمع الأفق','فتح تقرير حادثة في مستودع النخبة','تعديل تكليف فرد إلى موقع آخر'] },
+      rows: [
+        ['مجمع الأفق','شركة الأفق','نشط','خالد الحربي','صباحية'],
+        ['مستودع النخبة','شركة النخبة','نشط','أحمد محمد','ليلية'],
+        ['مبنى المستقبل','مكتب المستقبل','معلق','عبدالله السالم','مسائية'],
+        ['موقع البناء المتقدم','مؤسسة البناء المتقدم','مكتمل','فهد العمري','صباحية']
+      ],
+      act: [
+        'تسجيل حضور 42 فردًا في وردية الصباح',
+        'إتمام جولة تفتيش في مجمع الأفق',
+        'فتح تقرير حادثة في مستودع النخبة',
+        'تعديل تكليف فرد إلى موقع آخر'
+      ]
+    },
 
-    { id: 'consult', s: 'الاستشارات', p: 'استشارة', m: 'اس', c: '#6D28D9', d: 'الفرص والمشاريع والوقت والمخرجات.',
+    {
+      id: 'consult',
+      s: 'الاستشارات',
+      p: 'استشارة',
+      m: 'اس',
+      c: '#6D28D9',
+      d: 'الفرص والمشاريع والوقت والمخرجات.',
       mods: ['العملاء','الفرص','المشاريع','المستشارون','المهام','تسجيل الوقت','المخرجات','المستندات','العروض','العقود','الفواتير'],
-      kpi: [['الفرص',31,''],['المشاريع النشطة',18,''],['استغلال الوقت',79,'%'],['ساعات قابلة للفوترة',1420,''],['الإيرادات',352,' ألف'],['مخرجات قادمة',9,'']],
-      ch: 'الساعات القابلة للفوترة', tt: 'المشاريع النشطة',
+      kpi: [
+        ['الفرص',31,''],
+        ['المشاريع النشطة',18,''],
+        ['استغلال الوقت',79,'%'],
+        ['ساعات قابلة للفوترة',1420,''],
+        ['الإيرادات',352,' ألف'],
+        ['مخرجات قادمة',9,'']
+      ],
+      ch: 'الساعات القابلة للفوترة',
+      tt: 'المشاريع النشطة',
       cols: ['المشروع','العميل','الحالة','المستشار','التسليم'],
-      rows: [['إعادة هيكلة العمليات','شركة الأفق','قيد التنفيذ','سارة العتيبي','20 أبريل'],['دراسة سوق','شركة النخبة','قيد المراجعة','أحمد محمد','2 مايو'],['تحول رقمي','مكتب المستقبل','مكتمل','خالد الحربي','—'],['خطة استراتيجية','مؤسسة البناء المتقدم','مجدول','نورة القحطاني','15 مايو']],
-      act: ['تسجيل 6 ساعات على مشروع إعادة الهيكلة','إرسال عرض إلى شركة النخبة','رفع مخرج المرحلة الأولى','تحويل فرصة إلى مشروع'] },
+      rows: [
+        ['إعادة هيكلة العمليات','شركة الأفق','قيد التنفيذ','سارة العتيبي','20 أبريل'],
+        ['دراسة سوق','شركة النخبة','قيد المراجعة','أحمد محمد','2 مايو'],
+        ['تحول رقمي','مكتب المستقبل','مكتمل','خالد الحربي','—'],
+        ['خطة استراتيجية','مؤسسة البناء المتقدم','مجدول','نورة القحطاني','15 مايو']
+      ],
+      act: [
+        'تسجيل 6 ساعات على مشروع إعادة الهيكلة',
+        'إرسال عرض إلى شركة النخبة',
+        'رفع مخرج المرحلة الأولى',
+        'تحويل فرصة إلى مشروع'
+      ]
+    },
 
-    { id: 'ins', s: 'التأمين', p: 'وثيقة', m: 'و', c: '#2563EB', d: 'الوثائق والتجديدات والمطالبات والعمولات.',
+    {
+      id: 'ins',
+      s: 'التأمين',
+      p: 'وثيقة',
+      m: 'و',
+      c: '#2563EB',
+      d: 'الوثائق والتجديدات والمطالبات والعمولات.',
       mods: ['العملاء','وثائق التأمين','التجديدات','المطالبات','المستندات','الوسطاء','المهام','التنبيهات','العمولات','التقارير'],
-      kpi: [['الوثائق النشطة',684,''],['تجديدات هذا الشهر',57,''],['مطالبات مفتوحة',23,''],['العملاء',412,''],['الأقساط',196,' ألف'],['نسبة التجديد',88,'%']],
-      ch: 'التجديدات الشهرية', tt: 'الوثائق والتجديدات',
+      kpi: [
+        ['الوثائق النشطة',684,''],
+        ['تجديدات هذا الشهر',57,''],
+        ['مطالبات مفتوحة',23,''],
+        ['العملاء',412,''],
+        ['الأقساط',196,' ألف'],
+        ['نسبة التجديد',88,'%']
+      ],
+      ch: 'التجديدات الشهرية',
+      tt: 'الوثائق والتجديدات',
       cols: ['الوثيقة','العميل','الحالة','الوسيط','التجديد'],
-      rows: [['مركبات — 77120','شركة الأفق','نشط','أحمد محمد','18 أبريل'],['طبي جماعي — 55018','مؤسسة البناء المتقدم','قيد المراجعة','سارة العتيبي','2 مايو'],['ممتلكات — 33902','شركة النخبة','منتهي','خالد الحربي','—'],['مسؤولية مهنية — 41277','مكتب المستقبل','نشط','نورة القحطاني','30 مايو']],
-      act: ['فتح مطالبة جديدة على الوثيقة 77120','إرسال تنبيه تجديد إلى 12 عميلًا','تحديث مستندات وثيقة طبية','احتساب عمولة الوسيط'] },
+      rows: [
+        ['مركبات — 77120','شركة الأفق','نشط','أحمد محمد','18 أبريل'],
+        ['طبي جماعي — 55018','مؤسسة البناء المتقدم','قيد المراجعة','سارة العتيبي','2 مايو'],
+        ['ممتلكات — 33902','شركة النخبة','منتهي','خالد الحربي','—'],
+        ['مسؤولية مهنية — 41277','مكتب المستقبل','نشط','نورة القحطاني','30 مايو']
+      ],
+      act: [
+        'فتح مطالبة جديدة على الوثيقة 77120',
+        'إرسال تنبيه تجديد إلى 12 عميلًا',
+        'تحديث مستندات وثيقة طبية',
+        'احتساب عمولة الوسيط'
+      ]
+    },
 
-    { id: 'fin', s: 'الخدمات المالية', p: 'تمويل', m: 'ت', c: '#047857', d: 'الطلبات والمستندات والموافقات وسير العمل.',
+    {
+      id: 'fin',
+      s: 'الخدمات المالية',
+      p: 'تمويل',
+      m: 'ت',
+      c: '#047857',
+      d: 'الطلبات والمستندات والموافقات وسير العمل.',
       mods: ['العملاء','الطلبات','الملفات المالية','المستندات','المهام','الموافقات','المدفوعات','سير العمل','التقارير','التنبيهات'],
-      kpi: [['الطلبات',176,''],['العملاء',329,''],['مراجعات معلقة',34,''],['موافقات هذا الشهر',88,''],['الإيرادات',274,' ألف'],['متوسط زمن المعالجة',3.2,' يوم']],
-      ch: 'الطلبات المعالجة شهريًا', tt: 'الطلبات الجارية',
+      kpi: [
+        ['الطلبات',176,''],
+        ['العملاء',329,''],
+        ['مراجعات معلقة',34,''],
+        ['موافقات هذا الشهر',88,''],
+        ['الإيرادات',274,' ألف'],
+        ['متوسط زمن المعالجة',3.2,' يوم']
+      ],
+      ch: 'الطلبات المعالجة شهريًا',
+      tt: 'الطلبات الجارية',
       cols: ['الطلب','العميل','الحالة','المراجع','آخر تحديث'],
-      rows: [['طلب — 8841','شركة الأفق','قيد المراجعة','سارة العتيبي','اليوم'],['طلب — 8829','مؤسسة البناء المتقدم','معلق','أحمد محمد','أمس'],['طلب — 8814','شركة النخبة','مكتمل','خالد الحربي','3 أبريل'],['طلب — 8850','مكتب المستقبل','قيد التنفيذ','نورة القحطاني','اليوم']],
-      act: ['إحالة الطلب 8841 إلى المراجعة الثانية','استلام مستندات مكملة من العميل','اعتماد الطلب 8814','تحديث سير عمل الموافقات'] },
+      rows: [
+        ['طلب — 8841','شركة الأفق','قيد المراجعة','سارة العتيبي','اليوم'],
+        ['طلب — 8829','مؤسسة البناء المتقدم','معلق','أحمد محمد','أمس'],
+        ['طلب — 8814','شركة النخبة','مكتمل','خالد الحربي','3 أبريل'],
+        ['طلب — 8850','مكتب المستقبل','قيد التنفيذ','نورة القحطاني','اليوم']
+      ],
+      act: [
+        'إحالة الطلب 8841 إلى المراجعة الثانية',
+        'استلام مستندات مكملة من العميل',
+        'اعتماد الطلب 8814',
+        'تحديث سير عمل الموافقات'
+      ]
+    },
 
-    { id: 'agency', s: 'الوكالات', p: 'وكالة', m: 'وك', c: '#DB2777', d: 'العملاء والحملات والفرق والموافقات.',
+    {
+      id: 'agency',
+      s: 'الوكالات',
+      p: 'وكالة',
+      m: 'وك',
+      c: '#DB2777',
+      d: 'العملاء والحملات والفرق والموافقات.',
       mods: ['العملاء المحتملون','العملاء','المشاريع','الحملات','المهام','الفريق','تسجيل الوقت','الملفات','الموافقات','العروض','العقود','الفواتير'],
-      kpi: [['العملاء',42,''],['المشاريع',67,''],['الإيرادات',238,' ألف'],['المهام المفتوحة',184,''],['قدرة الفريق',86,'%'],['موافقات معلقة',13,'']],
-      ch: 'المشاريع المسلّمة شهريًا', tt: 'الحملات والمشاريع',
+      kpi: [
+        ['العملاء',42,''],
+        ['المشاريع',67,''],
+        ['الإيرادات',238,' ألف'],
+        ['المهام المفتوحة',184,''],
+        ['قدرة الفريق',86,'%'],
+        ['موافقات معلقة',13,'']
+      ],
+      ch: 'المشاريع المسلّمة شهريًا',
+      tt: 'الحملات والمشاريع',
       cols: ['المشروع','العميل','الحالة','المسؤول','التسليم'],
-      rows: [['حملة إطلاق منتج','شركة الأفق','قيد التنفيذ','نورة القحطاني','22 أبريل'],['هوية بصرية','شركة النخبة','قيد المراجعة','أحمد محمد','29 أبريل'],['إدارة محتوى شهري','مكتب المستقبل','نشط','سارة العتيبي','مستمر'],['فيديو تعريفي','مؤسسة البناء المتقدم','مكتمل','خالد الحربي','—']],
-      act: ['رفع النسخة الثالثة من الهوية البصرية','اعتماد العميل لخطة الحملة','تسجيل 4 ساعات على مشروع المحتوى','إضافة عميل محتمل جديد'] },
+      rows: [
+        ['حملة إطلاق منتج','شركة الأفق','قيد التنفيذ','نورة القحطاني','22 أبريل'],
+        ['هوية بصرية','شركة النخبة','قيد المراجعة','أحمد محمد','29 أبريل'],
+        ['إدارة محتوى شهري','مكتب المستقبل','نشط','سارة العتيبي','مستمر'],
+        ['فيديو تعريفي','مؤسسة البناء المتقدم','مكتمل','خالد الحربي','—']
+      ],
+      act: [
+        'رفع النسخة الثالثة من الهوية البصرية',
+        'اعتماد العميل لخطة الحملة',
+        'تسجيل 4 ساعات على مشروع المحتوى',
+        'إضافة عميل محتمل جديد'
+      ]
+    },
 
-    { id: 'field', s: 'الخدمات الميدانية', p: 'ميدان', m: 'مي', c: '#EA580C', d: 'أوامر العمل والفنيين والجدولة والزيارات.',
+    {
+      id: 'field',
+      s: 'الخدمات الميدانية',
+      p: 'ميدان',
+      m: 'مي',
+      c: '#EA580C',
+      d: 'أوامر العمل والفنيين والجدولة والزيارات.',
       mods: ['العملاء','أوامر العمل','الفنيون','الجدولة','التوزيع','الموقع','المعدات','قطع الغيار','الفواتير','العقود','سجل الخدمة'],
-      kpi: [['طلبات اليوم',86,''],['الفنيون',41,''],['طلبات مكتملة',62,''],['طلبات مفتوحة',24,''],['الإيرادات',142,' ألف'],['رضا العملاء',93,'%']],
-      ch: 'أوامر العمل المنجزة', tt: 'جدولة أوامر العمل',
+      kpi: [
+        ['طلبات اليوم',86,''],
+        ['الفنيون',41,''],
+        ['طلبات مكتملة',62,''],
+        ['طلبات مفتوحة',24,''],
+        ['الإيرادات',142,' ألف'],
+        ['رضا العملاء',93,'%']
+      ],
+      ch: 'أوامر العمل المنجزة',
+      tt: 'جدولة أوامر العمل',
       cols: ['أمر العمل','العميل','الحالة','الفني','الموعد'],
-      rows: [['صيانة تكييف — 5521','شركة الأفق','قيد التنفيذ','خالد الحربي','10:00'],['تركيب معدات — 5508','شركة النخبة','مجدول','أحمد محمد','13:30'],['إصلاح عطل — 5497','مكتب المستقبل','مكتمل','عبدالله السالم','—'],['زيارة دورية — 5530','مؤسسة البناء المتقدم','معلق','فهد العمري','غدًا 09:00']],
-      act: ['إسناد أمر العمل 5521 إلى خالد الحربي','إغلاق أمر العمل 5497 بتقرير خدمة','صرف قطع غيار من المستودع','إصدار فاتورة زيارة'] },
+      rows: [
+        ['صيانة تكييف — 5521','شركة الأفق','قيد التنفيذ','خالد الحربي','10:00'],
+        ['تركيب معدات — 5508','شركة النخبة','مجدول','أحمد محمد','13:30'],
+        ['إصلاح عطل — 5497','مكتب المستقبل','مكتمل','عبدالله السالم','—'],
+        ['زيارة دورية — 5530','مؤسسة البناء المتقدم','معلق','فهد العمري','غدًا 09:00']
+      ],
+      act: [
+        'إسناد أمر العمل 5521 إلى خالد الحربي',
+        'إغلاق أمر العمل 5497 بتقرير خدمة',
+        'صرف قطع غيار من المستودع',
+        'إصدار فاتورة زيارة'
+      ]
+    },
 
-    { id: 'edu', s: 'التدريب والتعليم', p: 'تعلّم', m: 'تع', c: '#60A5FA', d: 'الدورات والمتدربين والحضور والشهادات.',
+    {
+      id: 'edu',
+      s: 'التدريب والتعليم',
+      p: 'تعلّم',
+      m: 'تع',
+      c: '#60A5FA',
+      d: 'الدورات والمتدربين والحضور والشهادات.',
       mods: ['المتدربون','الدورات','المدربون','الفصول','الحضور','المدفوعات','الاختبارات','الشهادات','المحتوى التدريبي','التقارير'],
-      kpi: [['المتدربون',1140,''],['الدورات النشطة',36,''],['نسبة الحضور',89,'%'],['الإيرادات',168,' ألف'],['فصول قادمة',14,''],['شهادات صادرة',412,'']],
-      ch: 'التسجيلات الشهرية', tt: 'الدورات والفصول',
+      kpi: [
+        ['المتدربون',1140,''],
+        ['الدورات النشطة',36,''],
+        ['نسبة الحضور',89,'%'],
+        ['الإيرادات',168,' ألف'],
+        ['فصول قادمة',14,''],
+        ['شهادات صادرة',412,'']
+      ],
+      ch: 'التسجيلات الشهرية',
+      tt: 'الدورات والفصول',
       cols: ['الدورة','المدرب','الحالة','المتدربون','البداية'],
-      rows: [['إدارة المشاريع','أحمد محمد','قيد التنفيذ','28','—'],['السلامة المهنية','سارة العتيبي','مجدول','35','18 أبريل'],['تحليل البيانات','خالد الحربي','مكتمل','22','—'],['مهارات القيادة','نورة القحطاني','نشط','19','مستمر']],
-      act: ['تسجيل 12 متدربًا في دورة السلامة','رصد حضور فصل إدارة المشاريع','إصدار 22 شهادة لدورة منتهية','إضافة محتوى تدريبي جديد'] }
+      rows: [
+        ['إدارة المشاريع','أحمد محمد','قيد التنفيذ','28','—'],
+        ['السلامة المهنية','سارة العتيبي','مجدول','35','18 أبريل'],
+        ['تحليل البيانات','خالد الحربي','مكتمل','22','—'],
+        ['مهارات القيادة','نورة القحطاني','نشط','19','مستمر']
+      ],
+      act: [
+        'تسجيل 12 متدربًا في دورة السلامة',
+        'رصد حضور فصل إدارة المشاريع',
+        'إصدار 22 شهادة لدورة منتهية',
+        'إضافة محتوى تدريبي جديد'
+      ]
+    }
   ];
 
-  RANGES = ['هذا الأسبوع','هذا الشهر','هذا الربع','هذه السنة'];
-  MONTHS = ['ينا','فبر','مار','أبر','ماي','يون','يول','أغس','سبت','أكت','نوف','ديس'];
-  TIMES = ['قبل 8 دقائق','قبل 42 دقيقة','قبل ساعتين','أمس 16:20'];
 
-  componentWillUnmount() { cancelAnimationFrame(this.raf); }
+  RANGES = [
+    'هذا الأسبوع',
+    'هذا الشهر',
+    'هذا الربع',
+    'هذه السنة'
+  ];
+
+  MONTHS = [
+    'ينا',
+    'فبر',
+    'مار',
+    'أبر',
+    'ماي',
+    'يون',
+    'يول',
+    'أغس',
+    'سبت',
+    'أكت',
+    'نوف',
+    'ديس'
+  ];
+
+  TIMES = [
+    'قبل 8 دقائق',
+    'قبل 42 دقيقة',
+    'قبل ساعتين',
+    'أمس 16:20'
+  ];
+
+
+  componentDidMount() {
+    this.setState({
+      k: 1
+    });
+  }
+
+
+  componentWillUnmount() {
+    if (this.raf) {
+      cancelAnimationFrame(this.raf);
+    }
+  }
+
 
   open(i) {
-    this.setState({ view: 'one', i, mod: 0, notif: false, query: '' });
-    window.scrollTo(0, 0);
-    cancelAnimationFrame(this.raf);
+
+    this.setState({
+      view: 'one',
+      i,
+      mod: 0,
+      notif: false,
+      query: '',
+      k: 0
+    });
+
+    if (typeof window !== 'undefined' && window.scrollTo) {
+      window.scrollTo(0, 0);
+    }
+
+    if (this.raf) {
+      cancelAnimationFrame(this.raf);
+    }
+
     const t0 = performance.now();
+
     const step = t => {
-      const k = Math.min(1, (t - t0) / 650);
-      this.setState({ k });
-      if (k < 1) this.raf = requestAnimationFrame(step);
+
+      const k = Math.min(
+        1,
+        (t - t0) / 650
+      );
+
+      this.setState({
+        k
+      });
+
+      if (k < 1) {
+        this.raf = requestAnimationFrame(step);
+      }
     };
+
     this.raf = requestAnimationFrame(step);
   }
 
+
   seedBars(id, n) {
+
     let h = 0;
-    for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 9973;
-    const out = [];
-    for (let i = 0; i < n; i++) {
-      h = (h * 1103515245 + 12345) % 2147483647;
-      out.push(Math.min(100, Math.round(34 + ((h >>> 8) % 44) + (i * 42) / n)));
+
+    for (let i = 0; i < id.length; i++) {
+      h = (h * 31 + id.charCodeAt(i)) % 9973;
     }
+
+    const out = [];
+
+    for (let i = 0; i < n; i++) {
+
+      h = (
+        h * 1103515245 +
+        12345
+      ) % 2147483647;
+
+      const normalized = Math.abs(h) % 44;
+
+      out.push(
+        Math.min(
+          100,
+          Math.round(
+            34 +
+            normalized +
+            (i * 42) / n
+          )
+        )
+      );
+    }
+
     return out;
   }
 
+
   statusTone(v) {
-    if (['نشط','مكتمل','معتمد'].includes(v)) return '#34D399';
-    if (['قيد التنفيذ','قيد المراجعة'].includes(v)) return '#60A5FA';
-    if (['معلق','مجدول','مستمر'].includes(v)) return '#E5B567';
-    if (['متأخر','منتهي'].includes(v)) return '#F87171';
+
+    if (
+      ['نشط','مكتمل','معتمد'].includes(v)
+    ) {
+      return '#34D399';
+    }
+
+    if (
+      ['قيد التنفيذ','قيد المراجعة'].includes(v)
+    ) {
+      return '#60A5FA';
+    }
+
+    if (
+      ['معلق','مجدول','مستمر'].includes(v)
+    ) {
+      return '#E5B567';
+    }
+
+    if (
+      ['متأخر','منتهي'].includes(v)
+    ) {
+      return '#F87171';
+    }
+
     return '#A6A6B0';
   }
 
+
   dot(c, size) {
+
     const d = size || 8;
-    return { width: d + 'px', height: d + 'px', borderRadius: '999px', background: c, boxShadow: '0 0 12px ' + c + '66', flexShrink: 0, marginTop: d < 9 ? '0' : '5px' };
+
+    return {
+      width: d + 'px',
+      height: d + 'px',
+      borderRadius: '999px',
+      background: c,
+      boxShadow: '0 0 12px ' + c + '66',
+      flexShrink: 0,
+      marginTop: d < 9 ? '0' : '5px'
+    };
   }
 
+
   renderVals() {
+
     const st = this.state;
-    const dense = (this.props.dashboardDensity ?? 'مريح') === 'مضغوط';
-    const pad = dense ? '13px 14px' : '17px 16px';
-    const cur = this.SECTORS[st.i];
+
+    const dense =
+      (this.props.dashboardDensity ?? 'مريح') === 'مضغوط';
+
+    const pad =
+      dense
+        ? '13px 14px'
+        : '17px 16px';
+
+    const cur =
+      this.SECTORS[st.i] || this.SECTORS[0];
+
     const c = cur.c;
-    const k = 1 - Math.pow(1 - st.k, 3);
-    const nx = this.SECTORS[(st.i + 1) % this.SECTORS.length];
 
-    const chipBase = { display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: 'inherit', cursor: 'pointer', fontSize: '12.5px', borderRadius: '999px', padding: '7px 14px', whiteSpace: 'nowrap', border: '1px solid rgba(255,255,255,.1)', background: 'transparent', color: '#A6A6B0' };
+    const progress =
+      1 - Math.pow(
+        1 - Math.max(0, Math.min(1, st.k)),
+        3
+      );
 
-    const chips = this.SECTORS.map((s, i) => ({
-      label: s.p, dotStyle: this.dot(s.c, 7), select: () => this.open(i),
-      style: (st.view === 'one' && i === st.i) ? { ...chipBase, color: '#FFFFFF', background: s.c + '26', borderColor: s.c + '66' } : chipBase
-    }));
+    const nx =
+      this.SECTORS[
+        (st.i + 1) % this.SECTORS.length
+      ];
 
-    const cards = this.SECTORS.map((s, i) => ({
-      product: s.p, sector: s.s, desc: s.d, mark: s.m, topMods: s.mods.slice(0, 4),
-      select: () => this.open(i),
-      cardStyle: { display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'stretch', textAlign: 'right', fontFamily: 'inherit', cursor: 'pointer', padding: '20px', borderRadius: '16px', border: '1px solid rgba(255,255,255,.08)', background: 'linear-gradient(180deg,' + s.c + '12, rgba(255,255,255,.012))', color: '#ECECEF' },
-      markStyle: { width: '42px', height: '42px', borderRadius: '12px', display: 'grid', placeItems: 'center', fontSize: '16px', fontWeight: 600, color: s.c, background: s.c + '1F', border: '1px solid ' + s.c + '40', flexShrink: 0 },
-      openStyle: { fontSize: '12.5px', color: s.c, borderTop: '1px solid rgba(255,255,255,.07)', paddingTop: '13px', marginTop: 'auto' }
-    }));
 
-    const deltas = ['+8%', 'مستقر', '+3%', '−2%', '+11%', '+5%'];
+    const chipBase = {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '8px',
+      fontFamily: 'inherit',
+      cursor: 'pointer',
+      fontSize: '12.5px',
+      borderRadius: '999px',
+      padding: '7px 14px',
+      whiteSpace: 'nowrap',
+      border: '1px solid rgba(255,255,255,.1)',
+      background: 'transparent',
+      color: '#A6A6B0'
+    };
+
+
+    const chips =
+      this.SECTORS.map((s, i) => ({
+
+        label: s.p,
+
+        dotStyle:
+          this.dot(s.c, 7),
+
+        select:
+          () => this.open(i),
+
+        style:
+          (
+            st.view === 'one' &&
+            i === st.i
+          )
+            ? {
+                ...chipBase,
+                color: '#FFFFFF',
+                background: s.c + '26',
+                borderColor: s.c + '66'
+              }
+            : chipBase
+
+      }));
+
+
+    const cards =
+      this.SECTORS.map((s, i) => ({
+
+        product: s.p,
+        sector: s.s,
+        desc: s.d,
+        mark: s.m,
+        topMods: s.mods.slice(0, 4),
+
+        select:
+          () => this.open(i),
+
+        cardStyle: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '14px',
+          alignItems: 'stretch',
+          textAlign: 'right',
+          fontFamily: 'inherit',
+          cursor: 'pointer',
+          padding: '20px',
+          borderRadius: '16px',
+          border: '1px solid rgba(255,255,255,.08)',
+          background:
+            'linear-gradient(180deg,' +
+            s.c +
+            '12, rgba(255,255,255,.012))',
+          color: '#ECECEF'
+        },
+
+        markStyle: {
+          width: '42px',
+          height: '42px',
+          borderRadius: '12px',
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: '16px',
+          fontWeight: 600,
+          color: s.c,
+          background: s.c + '1F',
+          border: '1px solid ' + s.c + '40',
+          flexShrink: 0
+        },
+
+        openStyle: {
+          fontSize: '12.5px',
+          color: s.c,
+          borderTop: '1px solid rgba(255,255,255,.07)',
+          paddingTop: '13px',
+          marginTop: 'auto'
+        }
+
+      }));
+
+
+    const deltas = [
+      '+8%',
+      'مستقر',
+      '+3%',
+      '−2%',
+      '+11%',
+      '+5%'
+    ];
+
+
     return {
-      chips, cards,
-      isGrid: st.view === 'grid', isOne: st.view === 'one',
-      showAll: () => this.setState({ view: 'grid' }),
-      allChipStyle: st.view === 'grid' ? { ...chipBase, color: '#08080A', background: '#F2F2F4', borderColor: '#F2F2F4', fontWeight: 500 } : chipBase,
-      prev: () => this.open((st.i - 1 + this.SECTORS.length) % this.SECTORS.length),
-      next: () => this.open((st.i + 1) % this.SECTORS.length),
-      nextLabel: nx.p,
-      nextStyle: { fontFamily: 'inherit', fontSize: '13px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, color: '#FFFFFF', background: nx.c + '26', border: '1px solid ' + nx.c + '59', borderRadius: '9px', padding: '10px 16px' },
-      query: st.query,
-      onQuery: e => this.setState({ query: e.target.value }),
-      notif: st.notif,
-      toggleNotif: () => this.setState(s => ({ notif: !s.notif })),
-      ranges: this.RANGES.map((label, i) => ({ label, select: () => this.setState({ range: i }),
-        style: { fontFamily: 'inherit', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, borderRadius: '8px', padding: '7px 13px', border: '1px solid ' + (i === st.range ? c + '59' : 'rgba(255,255,255,.09)'), background: i === st.range ? c + '1F' : 'transparent', color: i === st.range ? '#FFFFFF' : '#8B8B95' } })),
+
+      chips,
+      cards,
+
+      isGrid:
+        st.view === 'grid',
+
+      isOne:
+        st.view === 'one',
+
+      showAll:
+        () => this.setState({
+          view: 'grid',
+          notif: false
+        }),
+
+      allChipStyle:
+        st.view === 'grid'
+          ? {
+              ...chipBase,
+              color: '#08080A',
+              background: '#F2F2F4',
+              borderColor: '#F2F2F4',
+              fontWeight: 500
+            }
+          : chipBase,
+
+      prev:
+        () => this.open(
+          (
+            st.i -
+            1 +
+            this.SECTORS.length
+          ) % this.SECTORS.length
+        ),
+
+      next:
+        () => this.open(
+          (st.i + 1) %
+          this.SECTORS.length
+        ),
+
+      nextLabel:
+        nx.p,
+
+      nextStyle: {
+        fontFamily: 'inherit',
+        fontSize: '13px',
+        cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        flexShrink: 0,
+        color: '#FFFFFF',
+        background: nx.c + '26',
+        border: '1px solid ' + nx.c + '59',
+        borderRadius: '9px',
+        padding: '10px 16px'
+      },
+
+      query:
+        st.query,
+
+      onQuery:
+        e => this.setState({
+          query: e.target.value
+        }),
+
+      notif:
+        st.notif,
+
+      toggleNotif:
+        () => this.setState(
+          s => ({
+            notif: !s.notif
+          })
+        ),
+
+      ranges:
+        this.RANGES.map((label, i) => ({
+
+          label,
+
+          select:
+            () => this.setState({
+              range: i
+            }),
+
+          style: {
+            fontFamily: 'inherit',
+            fontSize: '12px',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+            borderRadius: '8px',
+            padding: '7px 13px',
+
+            border:
+              '1px solid ' +
+              (
+                i === st.range
+                  ? c + '59'
+                  : 'rgba(255,255,255,.09)'
+              ),
+
+            background:
+              i === st.range
+                ? c + '1F'
+                : 'transparent',
+
+            color:
+              i === st.range
+                ? '#FFFFFF'
+                : '#8B8B95'
+          }
+
+        })),
+
       p: {
-        product: cur.p, sector: cur.s, desc: cur.d, mark: cur.m, cols: cur.cols,
-        activeMod: cur.mods[st.mod] || cur.mods[0],
-        chartTitle: cur.ch, tableTitle: cur.tt,
-        navMods: cur.mods.map((label, i) => ({ label, select: () => this.setState({ mod: i }),
-          bulletStyle: this.dot(i === st.mod ? c : 'rgba(255,255,255,.22)', 6),
-          style: { display: 'flex', alignItems: 'center', gap: '10px', width: '100%', textAlign: 'right', fontFamily: 'inherit', fontSize: '13px', padding: '9px 11px', borderRadius: '9px', cursor: 'pointer', border: '1px solid ' + (i === st.mod ? c + '3D' : 'transparent'), background: i === st.mod ? c + '1A' : 'transparent', color: i === st.mod ? '#FFFFFF' : '#9C9CA6' } })),
-        kpis: cur.kpi.map((row, i) => {
-          const raw = row[1];
-          const val = Number.isInteger(raw) ? Math.round(raw * k) : Math.round(raw * k * 10) / 10;
-          return { label: row[0], shown: val.toLocaleString('en-US') + row[2], delta: deltas[i],
-            cardStyle: { padding: pad, borderRadius: '13px', border: '1px solid rgba(255,255,255,.08)', background: i === 0 ? 'linear-gradient(180deg,' + c + '1F, rgba(255,255,255,.015))' : 'rgba(255,255,255,.022)', animation: 'riseIn .4s ease both', animationDelay: (i * 40) + 'ms' },
-            deltaStyle: { fontSize: '11px', color: i === 0 ? c : '#6F6F79', marginTop: '8px' } };
-        }),
-        bars: this.seedBars(cur.id, 12).map((v, i) => ({ label: this.MONTHS[i],
-          style: { height: (v * k) + '%', borderRadius: '5px 5px 3px 3px', background: i === 11 ? c : c + '5C', border: '1px solid ' + c + '3D', transition: 'height .3s ease' } })),
-        rows: cur.rows.map(cells => ({ cells: cells.map((v, i) => {
-          const isStatus = cur.cols[i] === 'الحالة' || cur.cols[i] === 'الاعتماد';
-          const tone = this.statusTone(v);
-          return { v, isStatus, plain: !isStatus,
-            pill: { fontSize: '11.5px', color: tone, background: tone + '1F', border: '1px solid ' + tone + '3D', borderRadius: '7px', padding: '4px 10px', whiteSpace: 'nowrap' } };
-        }) })),
-        activity: cur.act.map((text, i) => ({ text, time: this.TIMES[i] })),
-        modChips: cur.mods.map(label => ({ label, style: { fontSize: '12px', color: '#C4C4CC', whiteSpace: 'nowrap', flexShrink: 0, border: '1px solid rgba(255,255,255,.1)', borderRadius: '8px', padding: '6px 11px' } })),
-        appTabs: cur.mods.slice(0, 4).map((label, i) => ({ label,
-          style: { fontSize: '12px', color: i === 0 ? '#FFFFFF' : '#A6A6B0', whiteSpace: 'nowrap', flexShrink: 0, borderRadius: '8px', padding: '6px 11px', border: '1px solid ' + (i === 0 ? c + '59' : 'rgba(255,255,255,.1)'), background: i === 0 ? c + '1F' : 'transparent' },
-          tabStyle: { fontSize: '11.5px', whiteSpace: 'nowrap', color: i === 0 ? c : '#6F6F79', fontWeight: i === 0 ? 600 : 400 } })),
-        appActivity: cur.act.slice(0, 3).map((text, i) => ({ text, time: this.TIMES[i] })),
-        appTiles: cur.kpi.slice(0, 2).map((row, i) => ({ label: row[0],
-          value: (Number.isInteger(row[1]) ? Math.round(row[1] * k) : Math.round(row[1] * k * 10) / 10).toLocaleString('en-US') + row[2],
-          style: { padding: '15px', borderRadius: '14px', border: '1px solid rgba(255,255,255,.08)', background: i === 0 ? 'linear-gradient(180deg,' + c + '26, rgba(255,255,255,.015))' : 'rgba(255,255,255,.03)' } })),
-        appRows: cur.rows.map(cells => {
-          const si = cur.cols.indexOf('الحالة');
-          const status = si >= 0 ? cells[si] : '';
-          const tone = this.statusTone(status);
-          return { title: cells[0], sub: cells[1], status,
-            pill: { fontSize: '11px', color: tone, background: tone + '1F', border: '1px solid ' + tone + '3D', borderRadius: '7px', padding: '4px 9px', whiteSpace: 'nowrap', flexShrink: 0 } };
-        }),
-        dotStyle: this.dot(c, 7),
-        badgeStyle: { position: 'absolute', top: '6px', left: '6px', width: '7px', height: '7px', borderRadius: '999px', background: c },
-        bigMarkStyle: { width: '52px', height: '52px', borderRadius: '14px', display: 'grid', placeItems: 'center', fontSize: '19px', fontWeight: 600, color: c, background: c + '1F', border: '1px solid ' + c + '4D' },
-        smallMarkStyle: { width: '30px', height: '30px', borderRadius: '9px', display: 'grid', placeItems: 'center', fontSize: '12.5px', fontWeight: 600, color: c, background: c + '1F', border: '1px solid ' + c + '40', flexShrink: 0 }
+
+        product:
+          cur.p,
+
+        sector:
+          cur.s,
+
+        desc:
+          cur.d,
+
+        mark:
+          cur.m,
+
+        cols:
+          cur.cols,
+
+        activeMod:
+          cur.mods[st.mod] ||
+          cur.mods[0],
+
+        chartTitle:
+          cur.ch,
+
+        tableTitle:
+          cur.tt,
+
+
+        navMods:
+          cur.mods.map((label, i) => ({
+
+            label,
+
+            select:
+              () => this.setState({
+                mod: i,
+                query: ''
+              }),
+
+            bulletStyle:
+              this.dot(
+                i === st.mod
+                  ? c
+                  : 'rgba(255,255,255,.22)',
+                6
+              ),
+
+            style: {
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              width: '100%',
+              textAlign: 'right',
+              fontFamily: 'inherit',
+              fontSize: '13px',
+              padding: '9px 11px',
+              borderRadius: '9px',
+              cursor: 'pointer',
+
+              border:
+                '1px solid ' +
+                (
+                  i === st.mod
+                    ? c + '3D'
+                    : 'transparent'
+                ),
+
+              background:
+                i === st.mod
+                  ? c + '1A'
+                  : 'transparent',
+
+              color:
+                i === st.mod
+                  ? '#FFFFFF'
+                  : '#9C9CA6'
+            }
+
+          })),
+
+
+        kpis:
+          cur.kpi.map((row, i) => {
+
+            const raw =
+              Number(row[1]) || 0;
+
+            const val =
+              Number.isInteger(raw)
+                ? Math.round(
+                    raw * progress
+                  )
+                : Math.round(
+                    raw * progress * 10
+                  ) / 10;
+
+            return {
+
+              label:
+                row[0],
+
+              shown:
+                val.toLocaleString('en-US') +
+                row[2],
+
+              delta:
+                deltas[i],
+
+              cardStyle: {
+                padding: pad,
+                borderRadius: '13px',
+                border: '1px solid rgba(255,255,255,.08)',
+                background:
+                  i === 0
+                    ? 'linear-gradient(180deg,' +
+                      c +
+                      '1F, rgba(255,255,255,.015))'
+                    : 'rgba(255,255,255,.022)',
+                animation:
+                  'riseIn .4s ease both',
+                animationDelay:
+                  (i * 40) + 'ms'
+              },
+
+              deltaStyle: {
+                fontSize: '11px',
+                color:
+                  i === 0
+                    ? c
+                    : '#6F6F79',
+                marginTop: '8px'
+              }
+
+            };
+
+          }),
+
+
+        bars:
+          this.seedBars(
+            cur.id,
+            12
+          ).map((v, i) => ({
+
+            label:
+              this.MONTHS[i],
+
+            style: {
+              height:
+                Math.max(
+                  2,
+                  v * progress
+                ) + '%',
+
+              borderRadius:
+                '5px 5px 3px 3px',
+
+              background:
+                i === 11
+                  ? c
+                  : c + '5C',
+
+              border:
+                '1px solid ' +
+                c +
+                '3D',
+
+              transition:
+                'height .3s ease'
+            }
+
+          })),
+
+
+        rows:
+          cur.rows.map(cells => ({
+
+            cells:
+              cells.map((v, i) => {
+
+                const isStatus =
+                  cur.cols[i] === 'الحالة' ||
+                  cur.cols[i] === 'الاعتماد';
+
+                const tone =
+                  this.statusTone(v);
+
+                return {
+
+                  v,
+
+                  isStatus,
+
+                  plain:
+                    !isStatus,
+
+                  pill: {
+                    fontSize: '11.5px',
+                    color: tone,
+                    background: tone + '1F',
+                    border:
+                      '1px solid ' +
+                      tone +
+                      '3D',
+                    borderRadius: '7px',
+                    padding: '4px 10px',
+                    whiteSpace: 'nowrap'
+                  }
+
+                };
+
+              })
+
+          })),
+
+
+        activity:
+          cur.act.map((text, i) => ({
+            text,
+            time:
+              this.TIMES[i] ||
+              this.TIMES[
+                this.TIMES.length - 1
+              ]
+          })),
+
+
+        modChips:
+          cur.mods.map(label => ({
+
+            label,
+
+            style: {
+              fontSize: '12px',
+              color: '#C4C4CC',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border:
+                '1px solid rgba(255,255,255,.1)',
+              borderRadius: '8px',
+              padding: '6px 11px'
+            }
+
+          })),
+
+
+        appTabs:
+          cur.mods
+            .slice(0, 4)
+            .map((label, i) => ({
+
+              label,
+
+              style: {
+                fontSize: '12px',
+                color:
+                  i === 0
+                    ? '#FFFFFF'
+                    : '#A6A6B0',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                borderRadius: '8px',
+                padding: '6px 11px',
+
+                border:
+                  '1px solid ' +
+                  (
+                    i === 0
+                      ? c + '59'
+                      : 'rgba(255,255,255,.1)'
+                  ),
+
+                background:
+                  i === 0
+                    ? c + '1F'
+                    : 'transparent'
+              },
+
+              tabStyle: {
+                fontSize: '11.5px',
+                whiteSpace: 'nowrap',
+                color:
+                  i === 0
+                    ? c
+                    : '#6F6F79',
+                fontWeight:
+                  i === 0
+                    ? 600
+                    : 400
+              }
+
+            })),
+
+
+        appActivity:
+          cur.act
+            .slice(0, 3)
+            .map((text, i) => ({
+              text,
+              time:
+                this.TIMES[i] ||
+                this.TIMES[
+                  this.TIMES.length - 1
+                ]
+            })),
+
+
+        appTiles:
+          cur.kpi
+            .slice(0, 2)
+            .map((row, i) => {
+
+              const raw =
+                Number(row[1]) || 0;
+
+              const value =
+                Number.isInteger(raw)
+                  ? Math.round(
+                      raw * progress
+                    )
+                  : Math.round(
+                      raw *
+                      progress *
+                      10
+                    ) / 10;
+
+              return {
+
+                label:
+                  row[0],
+
+                value:
+                  value.toLocaleString('en-US') +
+                  row[2],
+
+                style: {
+                  padding: '15px',
+                  borderRadius: '14px',
+                  border:
+                    '1px solid rgba(255,255,255,.08)',
+                  background:
+                    i === 0
+                      ? 'linear-gradient(180deg,' +
+                        c +
+                        '26, rgba(255,255,255,.015))'
+                      : 'rgba(255,255,255,.03)'
+                }
+
+              };
+
+            }),
+
+
+        appRows:
+          cur.rows.map(cells => {
+
+            const si =
+              cur.cols.indexOf('الحالة');
+
+            const status =
+              si >= 0
+                ? cells[si]
+                : '';
+
+            const tone =
+              this.statusTone(status);
+
+            return {
+
+              title:
+                cells[0],
+
+              sub:
+                cells[1],
+
+              status,
+
+              pill: {
+                fontSize: '11px',
+                color: tone,
+                background:
+                  tone + '1F',
+                border:
+                  '1px solid ' +
+                  tone +
+                  '3D',
+                borderRadius: '7px',
+                padding: '4px 9px',
+                whiteSpace: 'nowrap',
+                flexShrink: 0
+              }
+
+            };
+
+          }),
+
+
+        dotStyle:
+          this.dot(c, 7),
+
+
+        badgeStyle: {
+          position: 'absolute',
+          top: '6px',
+          left: '6px',
+          width: '7px',
+          height: '7px',
+          borderRadius: '999px',
+          background: c
+        },
+
+
+        bigMarkStyle: {
+          width: '52px',
+          height: '52px',
+          borderRadius: '14px',
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: '19px',
+          fontWeight: 600,
+          color: c,
+          background: c + '1F',
+          border:
+            '1px solid ' +
+            c +
+            '4D'
+        },
+
+
+        smallMarkStyle: {
+          width: '30px',
+          height: '30px',
+          borderRadius: '9px',
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: '12.5px',
+          fontWeight: 600,
+          color: c,
+          background: c + '1F',
+          border:
+            '1px solid ' +
+            c +
+            '40',
+          flexShrink: 0
+        }
+
       }
+
     };
   }
 }
 
-</script>
+  </script>
+
 </body>
 </html>
+```
